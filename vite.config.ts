@@ -2,8 +2,10 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-	// Use `classic` for lower React versions e.g. 16
-	plugins: [react({ jsxRuntime: 'classic' })],
+	plugins: [
+		// Use `classic` for lower React versions e.g. 16
+		react({ jsxRuntime: 'classic' }),
+	],
 	root: './dev',
 	envDir: '../',
 	build: {
