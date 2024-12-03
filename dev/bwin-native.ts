@@ -1,7 +1,6 @@
 import { BinaryWindow } from 'bwin'
-import 'bwin/bwin.css'
 
-const settings = {
+const settings: ConfigRoot = {
 	width: 333,
 	height: 222,
 	children: [
@@ -15,4 +14,4 @@ const settings = {
 	],
 }
 const bwin = new BinaryWindow(settings)
-bwin.mount(document.getElementById('container'))
+bwin.mount(document.getElementById('container')!)
