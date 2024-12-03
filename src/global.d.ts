@@ -1,5 +1,10 @@
+declare module 'react-bwin' {
+	export const BUILTIN_ACTIONS: Action[]
+	export const Window: React.FC<WindowProps>
+}
+
 declare module 'bwin' {
-	export const BUILTIN_ACTIONS: []
+	export const BUILTIN_ACTIONS: Action[]
 	export const BinaryWindow: BinaryWindow
 }
 
@@ -57,8 +62,8 @@ type ConfigNode = {
 	id?: string
 	size?: number
 	position?: Position
-	title?: ReactNode
-	content?: ReactNode
+	title?: React.ReactNode
+	content?: React.ReactNode
 	actions?: Actions
 	children?: ConfigNode[]
 	draggable?: boolean
@@ -70,8 +75,8 @@ type ConfigRoot = {
 	width?: number
 	height?: number
 	fitContainer?: boolean
-	title?: ReactNode
-	content?: ReactNode
+	title?: React.ReactNode
+	content?: React.ReactNode
 	children?: ConfigNode[]
 }
 
@@ -83,3 +88,5 @@ interface BinaryWindow {
 	mount(container: HTMLElement): void
 	enableFeatures(): void
 }
+
+type WindowProps = ConfigRoot
