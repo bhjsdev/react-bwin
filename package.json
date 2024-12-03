@@ -24,8 +24,10 @@
 	],
 	"main": "./dist/react-bwin.js",
 	"module": "./dist/react-bwin.js",
+	"types": "./dist/react-bwin.d.ts",
 	"exports": {
 		".": {
+			"types": "./dist/react-bwin.d.ts",
 			"import": "./dist/react-bwin.js"
 		},
 		"./bwin-bwin.css": "./dist/react-bwin.css"
