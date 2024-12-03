@@ -1,7 +1,13 @@
 import { useRef, useEffect } from 'react'
 import { BUILTIN_ACTIONS } from 'bwin'
 
-export default function Pane({ sash, bwin }: { sash: Sash; bwin: BinaryWindow }) {
+export default function Pane({
+	sash,
+	bwin,
+}: {
+	sash: Sash
+	bwin: BinaryWindow
+}) {
 	const paneRef = useRef()
 	const { left, top, width, height, id, position } = sash
 
@@ -25,8 +31,12 @@ export default function Pane({ sash, bwin }: { sash: Sash; bwin: BinaryWindow })
 			ref={paneRef}
 		>
 			<bw-glass>
-				<bw-glass-header can-drag={sash.store?.draggable === false ? 'false' : 'true'}>
-					{sash.store?.title && <bw-glass-title>{sash.store.title}</bw-glass-title>}
+				<bw-glass-header
+					can-drag={sash.store?.draggable === false ? 'false' : 'true'}
+				>
+					{sash.store?.title && (
+						<bw-glass-title>{sash.store.title}</bw-glass-title>
+					)}
 					{actions.length > 0 && (
 						<bw-glass-action-container>
 							{actions.map((action: any, key: number) => {
