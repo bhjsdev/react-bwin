@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { BUILTIN_ACTIONS } from 'bwin'
 
 export default function Pane({

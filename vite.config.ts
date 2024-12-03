@@ -2,7 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-	plugins: [react()],
+	// Use jsxRuntime: 'classic' for lower React versions e.g. 16
+	plugins: [react({ jsxRuntime: 'classic' })],
 	root: './dev',
 	envDir: '../',
 	build: {
@@ -10,12 +11,17 @@ export default defineConfig({
 		emptyOutDir: true,
 		lib: {
 			entry: '../src/index.tsx',
-			formats: ['es'],
 			name: 'ReactBinaryWindow',
 			fileName: 'react-bwin',
 		},
 		rollupOptions: {
-			external: ['react', 'react-dom', 'react/jsx-runtime'],
+			external: ['react', 'react-dom'],
+			output: {
+				globals: {
+					'react': 'React',
+					'react-dom': 'ReactDOM',
+				},
+			},
 		},
 	},
 })

@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { BinaryWindow } from 'bwin'
 import Muntin from './Muntin.tsx'
 import Pane from './Pane.tsx'

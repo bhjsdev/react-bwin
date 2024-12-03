@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>React Binary Window Demo</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.0/umd/react.development.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.0/umd/react-dom.development.js"></script>
+		<script src="./dist/react-bwin.umd.cjs"></script>
+		<link rel="stylesheet" href="./dist/react-bwin.css" />
+		<script type="module">
+			const { createElement } = React
+			const { Window } = ReactBinaryWindow
+
+			function App() {
+				const props = {
+					width: 800,
+					height: 600,
+					children: [
+						{
+							position: 'left',
+							size: 300,
+							title: 'Left',
+							title: createElement(
+								'mark',
+								null,
+								`React version: ${React.version}`
+							),
+							content: 'Hello Binary Window!',
+						},
+						{
+							position: 'right',
+							size: 500,
+							children: [
+								{
+									position: 'top',
+									size: '30%',
+									title: 'No action buttons',
+									actions: null,
+									content: 'Drag disabled',
+									draggable: false,
+								},
+								{
+									position: 'bottom',
+									size: '70%',
+									title: 'Content is a React element',
+									content: createElement(
+										'div',
+										null,
+										createElement('i', null, 'Drop disabled')
+									),
+									droppable: false,
+								},
+							],
+						},
+					],
+				}
+
+				return createElement(Window, props)
+			}
+
+			ReactDOM.render(createElement(App), document.getElementById('root'))
+		</script>
+	</head>
+	<body>
+		<p>
+			Run <code>npm run build</code> to generate CSS and JS files in
+			<code>dist</code> folder.
+		</p>
+		<div id="root"></div>
+	</body>
+</html>
