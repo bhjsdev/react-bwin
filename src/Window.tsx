@@ -4,6 +4,8 @@ import Muntin from './Muntin.tsx'
 import Pane from './Pane.tsx'
 import 'bwin/bwin.css'
 
+type WindowProps = ConfigRoot
+
 export default function Window(props: WindowProps) {
 	const windowRef = useRef<HTMLElement>()
 

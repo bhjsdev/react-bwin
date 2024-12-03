@@ -83,5 +83,3 @@ interface BinaryWindow {
 	mount(container: HTMLElement): void
 	enableFeatures(): void
 }
-
-type WindowProps = ConfigRoot

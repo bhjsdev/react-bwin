@@ -1,10 +1,29 @@
-import { BinaryWindow } from 'bwin'
+import { BinaryWindow, BUILTIN_ACTIONS } from 'bwin'
 
 const settings: ConfigRoot = {
 	width: 333,
 	height: 222,
 	children: [
-		{ size: 0.4, content: 'hello world', actions: [] },
+		{
+			size: 0.4,
+			content: 'Hello world',
+			actions: [
+				{
+					label: 'Update',
+					onClick: (event, bwin) => {
+						const glassEl = (event.target as HTMLButtonElement).closest(
+							'bw-glass'
+						) as HTMLElement
+						const contentEl = glassEl.querySelector('bw-glass-content')
+
+						if (contentEl) {
+							contentEl.innerHTML = `Bye world ${bwin.rootSash.id}`
+						}
+					},
+				},
+				...BUILTIN_ACTIONS,
+			],
+		},
 		{
 			children: [
 				{ size: 0.5, position: 'top', title: 'bye world' },
