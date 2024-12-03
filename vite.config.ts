@@ -12,7 +12,6 @@ export default defineConfig({
 		lib: {
 			entry: '../src/index.tsx',
 			name: 'ReactBinaryWindow',
-			fileName: 'react-bwin',
 		},
 		rollupOptions: {
 			external: ['react', 'react-dom'],
