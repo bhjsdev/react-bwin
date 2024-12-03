@@ -4,7 +4,10 @@ import Counter from './Counter'
 
 function App() {
 	return (
-		<div id="bwin-container" style={{ width: 400, height: 300, backgroundColor: 'pink' }}>
+		<div
+			id="bwin-container"
+			style={{ width: 400, height: 300, backgroundColor: 'pink' }}
+		>
 			<Window
 				id="root"
 				width={333}

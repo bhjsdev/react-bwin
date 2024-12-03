@@ -21,7 +21,10 @@ type Position = 'left' | 'right' | 'top' | 'bottom'
 type Action = {
 	label?: string
 	className?: string
-	onClick: (event: React.MouseEvent<HTMLButtonElement>, bwin: BinaryWindow) => void
+	onClick: (
+		event: React.MouseEvent<HTMLButtonElement>,
+		bwin: BinaryWindow
+	) => void
 }
 
 type Actions = undefined | null | Action[]

@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react'
 import { BinaryWindow } from 'bwin'
 import Muntin from './Muntin.tsx'
 import Pane from './Pane.tsx'
+import 'bwin/bwin.css'
 
 export default function Window(props: WindowProps) {
 	const windowRef = useRef<HTMLElement>()

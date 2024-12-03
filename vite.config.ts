@@ -15,7 +15,7 @@ export default defineConfig({
 			fileName: 'react-bwin',
 		},
 		rollupOptions: {
-			external: ['react', 'react-dom', 'react/jsx-runtime', 'bwin'],
+			external: ['react', 'react-dom', 'react/jsx-runtime'],
 		},
 	},
 })
