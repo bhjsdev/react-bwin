@@ -1,0 +1,48 @@
+{
+	"name": "react-bwin",
+	"description": "A tiling window manager in React based on Binary Window library",
+	"version": "0.1.0",
+	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bhjsdev/react-bwin.git"
+	},
+	"keywords": [
+		"react",
+		"drag",
+		"drop",
+		"resize",
+		"window-manager",
+		"tiling-window-manager"
+	],
+	"author": "Bhjs Dev <bhjsdev@gmail.com>",
+	"license": "MIT",
+	"bugs": "https://github.com/bhjsdev/react-bwin/issues",
+	"homepage": "https://github.com/bhjsdev/react-bwin#readme",
+	"files": [
+		"dist"
+	],
+	"main": "./dist/react-bwin.js",
+	"module": "./dist/react-bwin.js",
+	"exports": {
+		".": {
+			"import": "./dist/react-bwin.js"
+		},
+		"./bwin-bwin.css": "./dist/react-bwin.css"
+	},
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc -b && vite build"
+	},
+	"devDependencies": {
+		"@types/react": "^18.3.12",
+		"@types/react-dom": "^18.3.1",
+		"@vitejs/plugin-react": "^4.3.4",
+		"bwin": "^0.1.1",
+		"prettier": "^3.4.1",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"typescript": "~5.6.2",
+		"vite": "^6.0.1"
+	}
+}
