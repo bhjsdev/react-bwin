@@ -77,6 +77,7 @@ interface BinaryWindow {
 	rootSash: Sash
 	windowElement: HTMLElement
 	containerElement: HTMLElement
+	mount(container: HTMLElement): void
 	enableFeatures(): void
 }
 

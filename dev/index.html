@@ -1,22 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bwin</title>
-  </head>
-  <style>
-    #container {
-      width: 333px;
-      height: 222px;
-    }
-  </style>
-  <body>
-    <h2>Native Bwin</h2>
-    <div id="container"></div>
-    <h2>React Bwin</h2>
-    <div id="root"></div>
-    <script type="module" src="./main.tsx"></script>
-    <script type="module" src="./bwin-native.js"></script>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Bwin</title>
+	</head>
+	<style>
+		#container {
+			width: 333px;
+			height: 222px;
+		}
+	</style>
+	<script type="module">
+		import 'bwin/bwin.css'
+	</script>
+	<body>
+		<h2>Native Bwin</h2>
+		<div id="container"></div>
+		<h2>React Bwin</h2>
+		<div id="root"></div>
+		<script type="module" src="./main.tsx"></script>
+		<script type="module" src="./bwin-native.ts"></script>
+	</body>
 </html>
