@@ -1,5 +1,5 @@
 import React from 'react'
-import { createRoot } from 'react-dom/client'
+import ReactDOM from 'react-dom'
 import Window from '../src/Window'
 import Counter from './Counter'
 
@@ -39,4 +39,4 @@ function App() {
 	)
 }
 
-createRoot(document.getElementById('root')!).render(<App />)
+ReactDOM.render(<App />, document.getElementById('root'))
