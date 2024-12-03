@@ -1,3 +1,4 @@
+import React from 'react'
 import { createRoot } from 'react-dom/client'
 import Window from '../src/Window'
 import Counter from './Counter'
