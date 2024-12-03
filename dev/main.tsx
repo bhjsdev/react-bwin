@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Window from '../src/Window'
+import { Window, BUILTIN_ACTIONS } from '../src'
 import Counter from './Counter'
 
 function App() {
@@ -16,7 +16,26 @@ function App() {
 				fitContainer={false}
 				content={<em>Root!</em>}
 				children={[
-					{ size: 0.4, content: 'hello world', actions: null },
+					{
+						size: 0.4,
+						content: 'hello world',
+						actions: [
+							{
+								label: 'Update',
+								onClick: (event, bwin) => {
+									const glassEl = (event.target as HTMLButtonElement).closest(
+										'bw-glass'
+									) as HTMLElement
+									const contentEl = glassEl.querySelector('bw-glass-content')
+
+									if (contentEl) {
+										contentEl.innerHTML = `Bye world ${bwin.rootSash.id}`
+									}
+								},
+							},
+							...BUILTIN_ACTIONS,
+						],
+					},
 					{
 						children: [
 							{
