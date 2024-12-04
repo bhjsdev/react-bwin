@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import fs from 'fs'
 import path from 'path'
+import pc from 'picocolors'
 
 export default defineConfig({
 	plugins: [
@@ -16,7 +17,10 @@ export default defineConfig({
 					path.resolve(__dirname, `src/${srcFile}`),
 					path.resolve(__dirname, `dist/${destFile}`)
 				)
-				console.log(`✓ Copied d.ts file: ${srcFile} -> ${destFile}`)
+
+				console.log(
+					`${pc.green('✓')} Copied d.ts file: ${pc.dim(srcFile)} -> ${pc.cyan(destFile)}`
+				)
 			},
 		},
 	],
