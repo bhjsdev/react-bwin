@@ -1,7 +1,27 @@
-import React, { useState, memo, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import ReactDOM from 'react-dom'
 import { Window, BUILTIN_ACTIONS } from '../src'
 import Counter from './Counter'
+import { ContentProvider, useContentAPI } from './ContentContext'
+
+function DynamicContent() {
+	const { content } = useContentAPI()
+
+	if (!content) {
+		return <p>Default content</p>
+	}
+	return <p>{content}</p>
+}
+
+function Content() {
+	const { updateContent } = useContentAPI()
+
+	return (
+		<button onClick={() => updateContent(<mark>xxx</mark>)}>
+			Update Content
+		</button>
+	)
+}
 
 function App() {
 	const [count, setCount] = useState(0)
@@ -16,7 +36,7 @@ function App() {
 			panes={[
 				{
 					size: 0.4,
-					content: 'hello world',
+					content: <DynamicContent />,
 					actions: [
 						{
 							label: 'Update',
@@ -54,7 +74,7 @@ function App() {
 		/>
 	)
 
-	const memoizedNode = useMemo(() => windowNode, [])
+	const memoizedWindowNode = useMemo(() => windowNode, [])
 
 	return (
 		<div
@@ -64,7 +84,10 @@ function App() {
 			<button onClick={() => setCount((count) => count + 1)}>
 				count is {count}
 			</button>
-			{memoizedNode}
+			<ContentProvider>
+				<Content />
+				{memoizedWindowNode}
+			</ContentProvider>
 		</div>
 	)
 }
