@@ -24,6 +24,8 @@ declare global {
 		top: number
 		width: number
 		height: number
+		minWidth: number
+		minHeight: number
 		children: Sash[]
 		domNode?: HTMLElement
 		leftChild?: Sash
