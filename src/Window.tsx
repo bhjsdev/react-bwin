@@ -6,9 +6,9 @@ import 'bwin/bwin.css'
 
 export default function Window(props: WindowProps) {
 	const windowRef = useRef<HTMLElement>()
+	const sillRef = useRef<HTMLElement>()
 
 	const bwin = new BinaryWindow(props)
-
 	const muntins: Sash[] = []
 	const panes: Sash[] = []
 
@@ -26,6 +26,7 @@ export default function Window(props: WindowProps) {
 		if (windowEl?.parentElement) {
 			bwin.windowElement = windowEl
 			bwin.containerElement = windowEl.parentElement
+			bwin.sillElement = sillRef.current!
 			bwin.enableFeatures()
 		}
 	}, [])
@@ -42,6 +43,7 @@ export default function Window(props: WindowProps) {
 			{muntins.map((sash) => (
 				<Muntin key={sash.id} sash={sash} />
 			))}
+			<bw-sill ref={sillRef} />
 		</bw-window>
 	)
 }

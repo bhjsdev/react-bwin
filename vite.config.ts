@@ -19,7 +19,7 @@ export default defineConfig({
 				)
 
 				console.log(
-					`${pc.green('✓')} Copied d.ts file: ${pc.dim(srcFile)} -> ${pc.cyan(destFile)}`
+					`${pc.green('✓')} ${pc.cyan(destFile)} ${pc.dim('copied from')} ${srcFile}`
 				)
 			},
 		},

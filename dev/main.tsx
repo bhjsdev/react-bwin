@@ -6,13 +6,13 @@ import Counter from './Counter'
 function App() {
 	return (
 		<div
-			id="bwin-container"
-			style={{ width: 400, height: 300, backgroundColor: 'pink' }}
+			id="react-container"
+			style={{ width: 400, height: 400, backgroundColor: 'pink' }}
 		>
 			<Window
 				id="root"
-				width={333}
-				height={222}
+				width={444}
+				height={333}
 				fitContainer={false}
 				content={<em>Root!</em>}
 				children={[
@@ -58,4 +58,4 @@ function App() {
 	)
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById('react-root'))

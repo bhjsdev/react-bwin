@@ -6,17 +6,29 @@
 		<title>Bwin</title>
 	</head>
 	<style>
-		#container {
-			width: 333px;
-			height: 222px;
+		#showcase {
+			display: flex;
+			gap: 200px;
+		}
+
+		#native-container {
+			width: 400px;
+			height: 400px;
+			background: lightblue;
 		}
 	</style>
-
 	<body>
-		<h2>Native Bwin</h2>
-		<div id="container"></div>
-		<h2>React Bwin</h2>
-		<div id="root"></div>
+		<div id="showcase">
+			<div>
+				<h2>Native Bwin</h2>
+				<div id="native-container"></div>
+			</div>
+			<div>
+				<h2>React Bwin</h2>
+				<div id="react-root"></div>
+			</div>
+		</div>
+		<p>Paragraph here</p>
 		<script type="module" src="./main.tsx"></script>
 		<script type="module" src="./bwin-native.ts"></script>
 	</body>

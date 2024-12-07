@@ -1,8 +1,8 @@
 import { BinaryWindow, BUILTIN_ACTIONS } from 'bwin'
 
 const settings: ConfigRoot = {
-	width: 333,
-	height: 222,
+	width: 444,
+	height: 333,
 	children: [
 		{
 			size: 0.4,
@@ -33,4 +33,4 @@ const settings: ConfigRoot = {
 	],
 }
 const bwin = new BinaryWindow(settings)
-bwin.mount(document.getElementById('container')!)
+bwin.mount(document.getElementById('native-container')!)
