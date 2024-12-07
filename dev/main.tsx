@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import ReactDOM from 'react-dom'
 import { Window, BUILTIN_ACTIONS } from '../src'
 import Counter from './Counter'
@@ -6,6 +6,7 @@ import { ContentProvider, useContentAPI } from './ContentContext'
 
 function DynamicContent() {
 	const { content } = useContentAPI()
+
 	if (!content) {
 		return <p>Default content</p>
 	}
@@ -23,60 +24,66 @@ function Content() {
 }
 
 function App() {
-	return (
-		<ContentProvider>
-			<div
-				id="react-container"
-				style={{ width: 400, height: 400, backgroundColor: 'pink' }}
-			>
-				<Content />
-				<Window
-					id="root"
-					width={444}
-					height={333}
-					fitContainer={false}
-					content={<em>Root!</em>}
-					panes={[
+	const windowNode = (
+		<Window
+			id="root"
+			width={444}
+			height={333}
+			fitContainer={false}
+			content={<em>Root!</em>}
+			panes={[
+				{
+					size: 0.4,
+					content: <DynamicContent />,
+					actions: [
 						{
-							size: 0.4,
-							content: <DynamicContent />,
-							actions: [
-								{
-									label: 'Update',
-									onClick: (event, bwin) => {
-										const glassEl = (event.target as HTMLButtonElement).closest(
-											'bw-glass'
-										) as HTMLElement
-										const contentEl = glassEl.querySelector('bw-glass-content')
+							label: 'Update',
+							onClick: (event, bwin) => {
+								const glassEl = (event.target as HTMLButtonElement).closest(
+									'bw-glass'
+								) as HTMLElement
+								const contentEl = glassEl.querySelector('bw-glass-content')
 
-										if (contentEl) {
-											contentEl.innerHTML = `Bye world ${bwin.rootSash.id}`
-										}
-									},
-								},
-								...BUILTIN_ACTIONS,
-							],
+								if (contentEl) {
+									contentEl.innerHTML = `Bye world ${bwin.rootSash.id}`
+								}
+							},
+						},
+						...BUILTIN_ACTIONS,
+					],
+				},
+				{
+					children: [
+						{
+							id: 'top-right',
+							size: 0.5,
+							position: 'top',
+							title: 'bye world',
+							content: <Counter />,
 						},
 						{
-							children: [
-								{
-									id: 'top-right',
-									size: 0.5,
-									position: 'top',
-									title: 'bye world',
-									content: <Counter />,
-								},
-								{
-									id: 'bottom-right',
-									title: <mark>no drag</mark>,
-									draggable: false,
-								},
-							],
+							id: 'bottom-right',
+							title: <mark>no drag</mark>,
+							draggable: false,
 						},
-					]}
-				/>
-			</div>
-		</ContentProvider>
+					],
+				},
+			]}
+		/>
+	)
+
+	const memoizedWindowNode = useMemo(() => windowNode, [])
+
+	return (
+		<div
+			id="react-container"
+			style={{ width: 400, height: 400, backgroundColor: 'pink' }}
+		>
+			<ContentProvider>
+				<Content />
+				{memoizedWindowNode}
+			</ContentProvider>
+		</div>
 	)
 }
 
