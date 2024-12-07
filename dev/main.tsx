@@ -15,7 +15,7 @@ function App() {
 				height={333}
 				fitContainer={false}
 				content={<em>Root!</em>}
-				children={[
+				panes={[
 					{
 						size: 0.4,
 						content: 'hello world',
