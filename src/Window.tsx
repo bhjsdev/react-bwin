@@ -9,7 +9,7 @@ export default function Window(props: WindowProps) {
 	const sillRef = useRef<HTMLElement>()
 
 	const { panes: panesProp, ...restProps } = props
-	const settings = { children: panesProp, ...restProps }
+	const settings = { ...restProps, children: panesProp }
 
 	const bwin = new BinaryWindow(settings)
 	const muntins: Sash[] = []
