@@ -75,7 +75,7 @@ declare global {
 		enableFeatures(): void
 	}
 
-	type WindowProps = ConfigRoot
+	type WindowProps = Omit<ConfigRoot, 'children'> & { panes: ConfigNode[] }
 }
 
 export {
