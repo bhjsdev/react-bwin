@@ -68,6 +68,7 @@ declare global {
 		rootSash: Sash
 		windowElement: HTMLElement
 		containerElement: HTMLElement
+		sillElement: HTMLElement
 		mount(container: HTMLElement): void
 		enableFeatures(): void
 	}
