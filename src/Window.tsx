@@ -1,10 +1,15 @@
-import React, { useRef, useEffect } from 'react'
+import React, {
+	useRef,
+	useEffect,
+	forwardRef,
+	useImperativeHandle,
+} from 'react'
 import { BinaryWindow } from 'bwin'
 import Muntin from './Muntin.tsx'
 import Pane from './Pane.tsx'
 import 'bwin/bwin.css'
 
-export default function Window(props: WindowProps) {
+export default forwardRef<WindowRef, WindowProps>((props, ref) => {
 	const windowRef = useRef<HTMLElement>()
 	const sillRef = useRef<HTMLElement>()
 
@@ -34,6 +39,14 @@ export default function Window(props: WindowProps) {
 		}
 	}, [])
 
+	useImperativeHandle(
+		ref,
+		() => ({
+			binaryWindow: bwin,
+		}),
+		[]
+	)
+
 	return (
 		<bw-window
 			sash-id={bwin.rootSash.id}
@@ -49,4 +62,4 @@ export default function Window(props: WindowProps) {
 			<bw-sill ref={sillRef} />
 		</bw-window>
 	)
-}
+})
