@@ -10,7 +10,7 @@ export default function App() {
 			id="root"
 			width={444}
 			height={333}
-			fitContainer={true}
+			fitContainer={false}
 			content={<em>Root!</em>}
 			panes={[
 				{
@@ -34,13 +34,12 @@ export default function App() {
 
 	const memoizedWindowNode = useMemo(() => windowNode, [])
 
-	useEffect(() => {
-		console.log(windowRef.current)
-	}, [])
-
 	return (
-		<div style={{ padding: 20, width: 800, height: 400 }}>
-			{memoizedWindowNode}
+		<div style={{ padding: 20 }}>
+			<button onClick={() => windowRef.current?.binaryWindow.fit()}>Fit</button>
+			<div style={{ width: 800, height: 400, backgroundColor: 'pink' }}>
+				{memoizedWindowNode}
+			</div>
 		</div>
 	)
 }
