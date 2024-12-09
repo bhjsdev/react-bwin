@@ -75,7 +75,13 @@ declare global {
 		enableFeatures(): void
 	}
 
-	type WindowProps = Omit<ConfigRoot, 'children'> & { panes: ConfigNode[] }
+	type WindowRef = {
+		binaryWindow: BinaryWindow
+	}
+
+	type WindowProps = Omit<ConfigRoot, 'children'> & {
+		panes?: ConfigNode[]
+	}
 }
 
 export {
