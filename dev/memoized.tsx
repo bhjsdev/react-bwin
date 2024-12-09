@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react'
-import ReactDOM from 'react-dom'
 import { Window, BUILTIN_ACTIONS } from '../src'
 import Counter from './Counter'
 import { ContentProvider, useContentAPI } from './ContentContext'
@@ -23,7 +22,7 @@ function Content() {
 	)
 }
 
-function App() {
+export default function App() {
 	const [count, setCount] = useState(0)
 
 	const windowNode = (
@@ -77,19 +76,19 @@ function App() {
 	const memoizedWindowNode = useMemo(() => windowNode, [])
 
 	return (
-		<div
-			id="react-container"
-			style={{ width: 400, height: 400, backgroundColor: 'pink' }}
-		>
-			<button onClick={() => setCount((count) => count + 1)}>
-				count is {count}
-			</button>
-			<ContentProvider>
-				<Content />
-				{memoizedWindowNode}
-			</ContentProvider>
+		<div style={{ padding: 20 }}>
+			<div
+				id="react-container"
+				style={{ width: 400, height: 400, backgroundColor: 'pink' }}
+			>
+				<button onClick={() => setCount((count) => count + 1)}>
+					count is {count}
+				</button>
+				<ContentProvider>
+					<Content />
+					{memoizedWindowNode}
+				</ContentProvider>
+			</div>
 		</div>
 	)
 }
-
-ReactDOM.render(<App />, document.getElementById('react-root'))
