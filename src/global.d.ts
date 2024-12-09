@@ -73,6 +73,7 @@ declare global {
 		sillElement: HTMLElement
 		mount(container: HTMLElement): void
 		enableFeatures(): void
+		fit(): void
 	}
 
 	type WindowRef = {
