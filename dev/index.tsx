@@ -13,9 +13,11 @@ const links = ['adhoc', 'memoized', 'fit-container', 'window-ref'].sort()
 const rootKidsPromises = links.map(async (link) => {
 	const module = await import(/* @vite-ignore */ `./${link}`)
 
+	// Vite dev server requires dot(.) for fallback to index page
+	// https://vitejs.dev/guide/features.html#dynamic-import-polyfill
 	return {
-		path: link,
-		element: React.createElement(module.default),
+		path: `${link}.html`,
+		Component: module.default,
 	}
 })
 
@@ -28,7 +30,7 @@ function Root() {
 				{links.map((link) => (
 					<li key={link}>
 						<NavLink
-							to={`/${link}`}
+							to={`/${link}.html`}
 							className={({ isActive }) => (isActive ? 'active' : '')}
 						>
 							{link}
@@ -43,13 +45,24 @@ function Root() {
 	)
 }
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+	[
+		{
+			path: '/',
+			element: <Root />,
+			children: rootKids,
+		},
+	],
 	{
-		path: '/',
-		element: <Root />,
-		children: rootKids,
-	},
-])
+		future: {
+			v7_fetcherPersist: true,
+			v7_normalizeFormMethod: true,
+			v7_partialHydration: true,
+			v7_relativeSplatPath: true,
+			v7_skipActionErrorRevalidation: true,
+		},
+	}
+)
 
 ReactDOM.render(
 	<RouterProvider router={router} />,
