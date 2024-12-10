@@ -45,24 +45,13 @@ function Root() {
 	)
 }
 
-const router = createBrowserRouter(
-	[
-		{
-			path: '/',
-			element: <Root />,
-			children: rootKids,
-		},
-	],
+const router = createBrowserRouter([
 	{
-		future: {
-			v7_fetcherPersist: true,
-			v7_normalizeFormMethod: true,
-			v7_partialHydration: true,
-			v7_relativeSplatPath: true,
-			v7_skipActionErrorRevalidation: true,
-		},
-	}
-)
+		path: '/',
+		element: <Root />,
+		children: rootKids,
+	},
+])
 
 ReactDOM.render(
 	<RouterProvider router={router} />,
