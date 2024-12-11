@@ -6,20 +6,23 @@
     <title>React Binary Window Demo</title>
     <script src="https://cdn.jsdelivr.net/npm/react@16.8.0/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@16.8.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-bwin@0.2.4/dist/react-bwin.umd.js"></script>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/react-bwin@0.2.4/dist/react-bwin.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script id="demo" type="text/babel">
+    <!-- Test with local files -->
+    <!-- <script src="../dist/react-bwin.umd.js"></script>
+    <link rel="stylesheet" href="../dist/react-bwin.css" /> -->
+    <script id="react-script" type="text/babel">
       // Use import {Window} from 'react-bwin' in your project
       const { Window } = ReactBinaryWindow
 
       function App() {
         return (
-          <div style={{ width: '60vw', height: '40vh', margin: '5% auto 0' }}>
+          <div style={{ width: '80vw', height: '40vh', margin: '5% auto 0' }}>
             <Window
               fitContainer
               panes={[
@@ -35,15 +38,17 @@
                     {
                       position: 'top',
                       size: '30%',
-                      title: <i>Title is a React element | Drop disabled</i>,
+                      title: <i>Title is a React element</i>,
+                      content: ' Drop disabled',
                       droppable: false,
                     },
                     {
                       position: 'bottom',
                       size: '70%',
-                      title: 'No action buttons | Drag disabled',
+                      title: 'No action buttons',
                       actions: null,
                       draggable: false,
+                      content: 'Drag disabled',
                     },
                   ],
                 },
@@ -62,8 +67,9 @@
       <div id="code-snippet"></div>
     </div>
     <script>
-      const markdownContent = document.getElementById('demo').textContent
-      const htmlContent = marked.parse(markdownContent)
+      const htmlContent = marked.parse(
+        document.getElementById('react-script').textContent
+      )
       document.getElementById('code-snippet').innerHTML = htmlContent
     </script>
   </body>
