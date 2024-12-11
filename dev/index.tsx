@@ -8,7 +8,13 @@ import {
 } from 'react-router-dom'
 import './index.css'
 
-const links = ['adhoc', 'memoized', 'fit-container', 'window-ref'].sort()
+const links = [
+  'adhoc',
+  'memoized',
+  'fit-container',
+  'window-ref',
+  'docs-example',
+].sort()
 
 const rootKidsPromises = links.map(async (link) => {
   const module = await import(/* @vite-ignore */ `./${link}`)
