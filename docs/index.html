@@ -28,8 +28,8 @@
               panes={[
                 {
                   position: 'left',
-                  size: '40%',
-                  title: 'Content is a React element',
+                  size: '30%',
+                  title: 'Title',
                   content: <i>React version: {React.version}</i>,
                 },
                 {
@@ -38,17 +38,26 @@
                     {
                       position: 'top',
                       size: '30%',
-                      title: <i>Title is a React element</i>,
-                      content: ' Drop disabled',
-                      droppable: false,
+                      title: <i>No action buttons</i>,
+                      actions: null,
                     },
                     {
                       position: 'bottom',
                       size: '70%',
-                      title: 'No action buttons',
-                      actions: null,
-                      draggable: false,
-                      content: 'Drag disabled',
+                      children: [
+                        {
+                          position: 'left',
+                          size: '50%',
+                          draggable: false,
+                          content: 'Drag disabled',
+                        },
+                        {
+                          position: 'right',
+                          size: '50%',
+                          content: ' Drop disabled',
+                          droppable: false,
+                        },
+                      ],
                     },
                   ],
                 },
