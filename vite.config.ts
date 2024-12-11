@@ -32,6 +32,15 @@ export default defineConfig({
 		lib: {
 			entry: '../src/index.tsx',
 			name: 'ReactBinaryWindow',
+			fileName: (format) => {
+				if (format === 'es') {
+					return 'react-bwin.js'
+				}
+				if (format === 'umd') {
+					return 'react-bwin.umd.js'
+				}
+				return `react-bwin.${format}.js`
+			},
 		},
 		rollupOptions: {
 			external: ['react', 'react-dom'],
