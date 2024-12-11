@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Binary Window Demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/react@16.8.0/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@16.8.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-bwin@0.2.4/dist/react-bwin.umd.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/react-bwin@0.2.4/dist/react-bwin.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script id="demo" type="text/babel">
+      // Use import {Window} from 'react-bwin' in your project
+      const { Window } = ReactBinaryWindow
+
+      function App() {
+        return (
+          <div style={{ width: '60vw', height: '40vh', margin: '5% auto 0' }}>
+            <Window
+              fitContainer
+              panes={[
+                {
+                  position: 'left',
+                  size: '40%',
+                  title: 'Content is a React element',
+                  content: <i>React version: {React.version}</i>,
+                },
+                {
+                  position: 'right',
+                  children: [
+                    {
+                      position: 'top',
+                      size: '30%',
+                      title: <i>Title is a React element | Drop disabled</i>,
+                      droppable: false,
+                    },
+                    {
+                      position: 'bottom',
+                      size: '70%',
+                      title: 'No action buttons | Drag disabled',
+                      actions: null,
+                      draggable: false,
+                    },
+                  ],
+                },
+              ]}
+            />
+          </div>
+        )
+      }
+
+      ReactDOM.render(<App />, document.getElementById('root'))
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div style="display: grid; place-items: center">
+      <div id="code-snippet"></div>
+    </div>
+    <script>
+      const markdownContent = document.getElementById('demo').textContent
+      const htmlContent = marked.parse(markdownContent)
+      document.getElementById('code-snippet').innerHTML = htmlContent
+    </script>
+  </body>
+</html>
