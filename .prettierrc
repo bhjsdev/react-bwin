@@ -2,7 +2,7 @@
 	"semi": false,
 	"trailingComma": "es5",
 	"tabWidth": 2,
-	"useTabs": true,
+	"useTabs": false,
 	"singleQuote": true,
 	"quoteProps": "consistent"
 }
