@@ -30,7 +30,12 @@
                   position: 'left',
                   size: '30%',
                   title: 'Title',
-                  content: <i>React version: {React.version}</i>,
+                  content: (
+                    <ul>
+                      <li>Package version: {ReactBinaryWindow.version}</li>
+                      <li>React version: {React.version}</li>
+                    </ul>
+                  ),
                 },
                 {
                   position: 'right',
