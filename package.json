@@ -1,56 +1,56 @@
 {
-	"name": "react-bwin",
-	"description": "A tiling window manager in React based on Binary Window library",
-	"version": "0.2.6-dev.0",
-	"type": "module",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/bhjsdev/react-bwin.git"
-	},
-	"keywords": [
-		"react",
-		"drag",
-		"drop",
-		"resize",
-		"window-manager",
-		"tiling-window-manager"
-	],
-	"author": "Bhjs Dev <bhjsdev@gmail.com>",
-	"license": "MIT",
-	"bugs": "https://github.com/bhjsdev/react-bwin/issues",
-	"homepage": "https://github.com/bhjsdev/react-bwin#readme",
-	"files": [
-		"dist"
-	],
-	"main": "./dist/react-bwin.js",
-	"module": "./dist/react-bwin.js",
-	"types": "./dist/react-bwin.d.ts",
-	"exports": {
-		".": {
-			"types": "./dist/react-bwin.d.ts",
-			"import": "./dist/react-bwin.js"
-		},
-		"./react-bwin.css": "./dist/react-bwin.css"
-	},
-	"scripts": {
-		"dev": "vite",
-		"build": "tsc -b && vite build"
-	},
-	"peerDependencies": {
-		"react": ">=16.8.0",
-		"react-dom": ">=16.8.0"
-	},
-	"devDependencies": {
-		"@types/node": "^22.10.1",
-		"@types/react": "^16.14.62",
-		"@types/react-dom": "^16.9.24",
-		"@vitejs/plugin-react": "^4.3.4",
-		"bwin": "0.1.5",
-		"prettier": "^3.4.1",
-		"react": "^16.14.0",
-		"react-dom": "^16.14.0",
-		"react-router-dom": "6.18.0",
-		"typescript": "^5.6.2",
-		"vite": "^6.0.1"
-	}
+  "name": "react-bwin",
+  "description": "A tiling window manager in React based on Binary Window library",
+  "version": "0.2.6-dev.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhjsdev/react-bwin.git"
+  },
+  "keywords": [
+    "react",
+    "drag",
+    "drop",
+    "resize",
+    "window-manager",
+    "tiling-window-manager"
+  ],
+  "author": "Bhjs Dev <bhjsdev@gmail.com>",
+  "license": "MIT",
+  "bugs": "https://github.com/bhjsdev/react-bwin/issues",
+  "homepage": "https://github.com/bhjsdev/react-bwin#readme",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/react-bwin.js",
+  "module": "./dist/react-bwin.js",
+  "types": "./dist/react-bwin.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/react-bwin.d.ts",
+      "import": "./dist/react-bwin.js"
+    },
+    "./react-bwin.css": "./dist/react-bwin.css"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "@types/react": "^16.14.62",
+    "@types/react-dom": "^16.9.24",
+    "@vitejs/plugin-react": "^4.3.4",
+    "bwin": "0.1.5",
+    "prettier": "^3.4.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-router-dom": "6.27.0",
+    "typescript": "^5.6.2",
+    "vite": "^6.0.1"
+  }
 }
