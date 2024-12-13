@@ -48,7 +48,7 @@ export default forwardRef<WindowRef, WindowProps>((props, ref) => {
   useImperativeHandle(
     ref,
     () => ({
-      binaryWindow: bwin,
+      fit: bwin.fit.bind(bwin),
       addPane,
     }),
     []

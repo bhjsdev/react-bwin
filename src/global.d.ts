@@ -79,8 +79,8 @@ declare global {
   }
 
   type WindowRef = {
-    binaryWindow: BinaryWindow
     addPane: (targetPaneId: string, fields: PaneFields) => void
+    fit: () => void
   }
 
   type WindowProps = Omit<ConfigRoot, 'children'> & {
