@@ -3,7 +3,11 @@ import React, {
   useEffect,
   forwardRef,
   useImperativeHandle,
+  useMemo,
+  useState,
+  ReactNode,
 } from 'react'
+import { createPortal } from 'react-dom'
 import { BinaryWindow } from 'bwin'
 import Muntin from './Muntin.tsx'
 import Pane from './Pane.tsx'
@@ -12,6 +16,8 @@ import 'bwin/bwin.css'
 export default forwardRef<WindowRef, WindowProps>((props, ref) => {
   const windowRef = useRef<HTMLElement>()
   const sillRef = useRef<HTMLElement>()
+  const [paneContentPortals, setPaneContentPortals] =
+    useState<{ node: ReactNode; container: HTMLElement }[]>()
 
   const { panes: panesProp, ...restProps } = props
   const settings = { ...restProps, children: panesProp }
@@ -43,13 +49,14 @@ export default forwardRef<WindowRef, WindowProps>((props, ref) => {
     ref,
     () => ({
       binaryWindow: bwin,
+      addPane,
     }),
     []
   )
 
-  return (
+  const windowNode = (
     <bw-window
-      sash-id={bwin.rootSash.id}
+      root-sash-id={bwin.rootSash.id}
       style={{ width: bwin.rootSash.width, height: bwin.rootSash.height }}
       ref={windowRef}
     >
@@ -61,5 +68,28 @@ export default forwardRef<WindowRef, WindowProps>((props, ref) => {
       ))}
       <bw-sill ref={sillRef} />
     </bw-window>
+  )
+
+  const memoizedWindowNode = useMemo(() => windowNode, [])
+
+  function addPane(targetPaneId: string, fields: PaneFields) {
+    const { content, ...restFields } = fields
+    const sash = bwin.addPane(targetPaneId, restFields)
+    const glassContentEl = document.querySelector(
+      `bw-pane[sash-id="${sash.id}"] bw-glass-content`
+    )
+    setPaneContentPortals((prev) => [
+      ...(prev || []),
+      { node: content, container: glassContentEl as HTMLElement },
+    ])
+  }
+
+  return (
+    <>
+      {memoizedWindowNode}
+      {paneContentPortals?.map((portal) => {
+        return createPortal(portal.node, portal.container)
+      })}
+    </>
   )
 })

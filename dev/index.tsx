@@ -14,6 +14,7 @@ const links = [
   'fit-container',
   'window-ref',
   'docs-example',
+  'add-remove-panes',
 ].sort()
 
 const rootKidsPromises = links.map(async (link) => {
