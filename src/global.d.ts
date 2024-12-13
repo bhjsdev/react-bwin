@@ -74,14 +74,27 @@ declare global {
     mount(container: HTMLElement): void
     enableFeatures(): void
     fit(): void
+    addPane(targetPaneId: string, fields: PaneFields): Sash
+    removePane(targetPaneId: string): void
   }
 
   type WindowRef = {
     binaryWindow: BinaryWindow
+    addPane: (targetPaneId: string, fields: PaneFields) => void
   }
 
   type WindowProps = Omit<ConfigRoot, 'children'> & {
     panes?: ConfigNode[]
+  }
+
+  type PaneFields = {
+    size?: number | string
+    position?: Position
+    title?: React.ReactNode
+    content?: React.ReactNode
+    actions?: Actions
+    draggable?: boolean
+    droppable?: boolean
   }
 }
 
