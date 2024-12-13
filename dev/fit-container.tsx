@@ -6,7 +6,7 @@ export default function App() {
 
   return (
     <div style={{ padding: 20 }}>
-      <button onClick={() => windowRef.current?.binaryWindow.fit()}>Fit</button>
+      <button onClick={() => windowRef.current?.fit()}>Fit</button>
       <div style={{ width: 800, height: 400, backgroundColor: 'pink' }}>
         <Window
           ref={windowRef}
