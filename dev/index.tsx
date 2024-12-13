@@ -10,7 +10,7 @@ import './index.css'
 
 const links = [
   'adhoc',
-  'memoized',
+  'update-pane-content',
   'fit-container',
   'window-ref',
   'docs-example',
