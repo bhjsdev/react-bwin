@@ -1,42 +1,40 @@
 import { Window } from '../src'
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import React, { createContext, ReactNode, useContext, useState } from 'react'
 
 const ContentContext = createContext<{
-  storage: Record<string, ReactNode>
-  updateStorage: (key: string, node: ReactNode) => void
+  store: Record<string, unknown>
+  updateStore: (key: string, value: unknown) => void
 }>({
-  storage: {},
-  updateStorage: () => {},
+  store: {},
+  updateStore: () => {},
 })
 
 function WindowProvider({ children }: { children: ReactNode }) {
-  const [store, setStore] = useState<Record<string, ReactNode>>({})
+  const [store, setStore] = useState<Record<string, unknown>>({})
 
-  function updateStore(key: string, newContent: ReactNode) {
-    setStore((prev) => ({ ...prev, [key]: newContent }))
+  function updateStore(key: string, value: unknown) {
+    setStore((prev) => ({ ...prev, [key]: value }))
   }
 
   return (
-    <ContentContext.Provider
-      value={{ storage: store, updateStorage: updateStore }}
-    >
+    <ContentContext.Provider value={{ store, updateStore }}>
       {children}
     </ContentContext.Provider>
   )
 }
 
-function useWindow() {
+function useStore() {
   return useContext(ContentContext)
 }
 
 function PaneContent() {
-  const { storage: store } = useWindow()
-  const [internal, setInternal] = useState('default internal content')
+  const { store } = useStore()
+  const [internal, setInternalContent] = useState('default internal content')
 
   return (
     <div>
       <p>External: {store.x}</p>
-      <button onClick={() => setInternal(Math.random().toString())}>
+      <button onClick={() => setInternalContent(Math.random().toString())}>
         Update internal content
       </button>
       <p>Internal: {internal}</p>
@@ -44,33 +42,33 @@ function PaneContent() {
   )
 }
 
-function ContentUpdater() {
-  const { updateStorage } = useWindow()
+function Main() {
+  const { updateStore } = useStore()
 
   return (
-    <button onClick={() => updateStorage('x', <mark>{Math.random()}</mark>)}>
-      Update Content
-    </button>
+    <div style={{ padding: 20 }}>
+      <button onClick={() => updateStore('x', Math.random().toString())}>
+        Update Content
+      </button>
+      <Window
+        width={444}
+        height={333}
+        fitContainer={false}
+        panes={[
+          {
+            size: 0.4,
+            content: <PaneContent />,
+          },
+        ]}
+      />
+    </div>
   )
 }
 
 export default function App() {
   return (
-    <div style={{ padding: 20 }}>
-      <WindowProvider>
-        <ContentUpdater />
-        <Window
-          width={444}
-          height={333}
-          fitContainer={false}
-          panes={[
-            {
-              size: 0.4,
-              content: <PaneContent />,
-            },
-          ]}
-        />
-      </WindowProvider>
-    </div>
+    <WindowProvider>
+      <Main />
+    </WindowProvider>
   )
 }
