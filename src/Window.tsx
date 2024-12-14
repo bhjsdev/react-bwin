@@ -13,7 +13,7 @@ import Muntin from './Muntin.tsx'
 import Pane from './Pane.tsx'
 import 'bwin/bwin.css'
 
-export default forwardRef<WindowRef, WindowProps>((props, ref) => {
+export default forwardRef<WindowHandle, WindowProps>((props, ref) => {
   const windowRef = useRef<HTMLElement>()
   const sillRef = useRef<HTMLElement>()
   const [paneContentPortals, setPaneContentPortals] =
@@ -49,6 +49,7 @@ export default forwardRef<WindowRef, WindowProps>((props, ref) => {
     ref,
     () => ({
       fit: bwin.fit.bind(bwin),
+      removePane: bwin.removePane.bind(bwin),
       addPane,
     }),
     []

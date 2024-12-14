@@ -78,8 +78,9 @@ declare global {
     removePane(targetPaneId: string): void
   }
 
-  type WindowRef = {
+  type WindowHandle = {
     addPane: (targetPaneId: string, fields: PaneFields) => void
+    removePane: (targetPaneId: string) => void
     fit: () => void
   }
 

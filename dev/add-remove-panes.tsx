@@ -1,8 +1,8 @@
-import React, { useMemo, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Window } from '../src'
 
 export default function App() {
-  const windowRef = useRef<WindowRef>(null)
+  const windowRef = useRef<WindowHandle>(null)
   const [inputValue, setInputValue] = useState('')
 
   useEffect(() => {
@@ -12,12 +12,17 @@ export default function App() {
     })
   }, [])
 
-  function handleClick() {
+  function handlePaneAdd() {
     windowRef.current?.addPane(inputValue, {
       position: 'right',
+      size: 0.3,
       title: 'New title',
       content: <i>New content</i>,
     })
+  }
+
+  function handlePaneRemove() {
+    windowRef.current?.removePane(inputValue)
   }
 
   return (
@@ -29,7 +34,8 @@ export default function App() {
         value={inputValue}
         onChange={(event) => setInputValue(event.target.value)}
       />
-      <button onClick={handleClick}>Add pane</button>
+      <button onClick={handlePaneAdd}>Add pane</button>
+      <button onClick={handlePaneRemove}>Remove pane</button>
       <div style={{ width: 800, height: 400 }}>
         <Window
           ref={windowRef}
