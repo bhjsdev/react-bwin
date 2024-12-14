@@ -1,8 +1,8 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { Window } from '../src'
 
 export default function App() {
-  const windowRef = useRef<WindowRef>(null)
+  const windowRef = useRef<WindowHandle>(null)
 
   return (
     <div style={{ padding: 20 }}>
