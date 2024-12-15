@@ -11,6 +11,7 @@ import './index.css'
 const links = [
   'adhoc',
   'update-pane-content',
+  'update-pane-content-zustand',
   'fit-container',
   'window-ref',
   'docs-example',
