@@ -8,6 +8,4 @@ A React tiling window manager based on [Binary Window](https://github.com/bhjsde
 
 Check the following items if you run into issues, such as restoring a minimized pane.
 
-### React StrictMode
-
 - Disable `StrictMode` in React 18 or later, including frameworks built on it (e.g., Next.js).
