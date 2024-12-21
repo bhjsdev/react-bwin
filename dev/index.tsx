@@ -1,11 +1,5 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import ReactDOM from 'react-dom'
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Outlet,
-  NavLink,
-} from 'react-router-dom'
 import './index.css'
 
 const links = [
@@ -20,50 +14,35 @@ const links = [
   're-render',
 ].sort()
 
-const rootKidsPromises = links.map(async (link) => {
-  const module = await import(/* @vite-ignore */ `./${link}`)
+const components: Record<string, FunctionComponent> = {}
 
-  // Vite dev server requires dot(.) for fallback to index page
-  // https://vitejs.dev/guide/features.html#dynamic-import-polyfill
-  return {
-    path: `${link}.html`,
-    Component: module.default,
-  }
-})
-
-const rootKids = await Promise.all(rootKidsPromises)
+for (const link of links) {
+  components[link] = (await import(/* @vite-ignore */ `./${link}`)).default
+}
 
 function Root() {
+  function renderComponent() {
+    const name = location.pathname.slice(1).replace('.html', '')
+
+    if (components[name]) {
+      return React.createElement(components[name])
+    }
+
+    return <h1>Component not found</h1>
+  }
+
   return (
     <div className="_container">
       <ul className="_menu">
         {links.map((link) => (
           <li key={link}>
-            <NavLink
-              to={`/${link}.html`}
-              className={({ isActive }) => (isActive ? 'active' : '')}
-            >
-              {link}
-            </NavLink>
+            <a href={`/${link}.html`}>{link}</a>
           </li>
         ))}
       </ul>
-      <div className="_content">
-        <Outlet />
-      </div>
+      <div className="_content">{renderComponent()}</div>
     </div>
   )
 }
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Root />,
-    children: rootKids,
-  },
-])
-
-ReactDOM.render(
-  <RouterProvider router={router} />,
-  document.getElementById('root')
-)
+ReactDOM.render(<Root />, document.getElementById('root'))
