@@ -1,11 +1,5 @@
 # React Binary Window
 
-A React tiling window manager based on [Binary Window](https://github.com/bhjsdev/bwin) library.
+A React-based tiling window manager featuring resizable panes, drag-and-drop, and more. Built on top of the [Binary Window](https://github.com/bhjsdev/bwin) library.
 
-[Demo](https://bhjsdev.github.io/react-bwin/)
-
-## Troubleshooting
-
-Check the following items if you run into issues, such as restoring a minimized pane.
-
-- Disable `StrictMode` in React 18 or later, including frameworks built on it (e.g., Next.js).
+[Documentation](https://bhjsdev.github.io/bwin-docs/)
