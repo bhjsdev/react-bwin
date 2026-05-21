@@ -1,0 +1,209 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  background: #1e1e1e;
+  color: #d4d4d4;
+}
+
+.ide-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ide-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+  background: #323233;
+  border-bottom: 1px solid #3c3c3c;
+  flex-shrink: 0;
+}
+
+.ide-title {
+  font-weight: 600;
+  font-size: 13px;
+  color: #ccc;
+}
+
+.ide-btn {
+  padding: 4px 10px;
+  font-size: 12px;
+  background: #0e639c;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.ide-btn:hover {
+  background: #1177bb;
+}
+
+.ide-status {
+  margin-left: auto;
+  font-size: 12px;
+  color: #888;
+}
+
+.ide-window {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* File Explorer */
+.file-explorer {
+  height: 100%;
+  background: #252526;
+  padding: 8px 0;
+  overflow: auto;
+}
+
+.file-explorer-header {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 12px 8px;
+  color: #bbb;
+}
+
+.file-tree {
+  list-style: none;
+}
+
+.file-item {
+  padding: 3px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.file-item:hover {
+  background: #2a2d2e;
+}
+
+.file-icon {
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+/* Editor */
+.editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #1e1e1e;
+}
+
+.editor-lines {
+  flex: 1;
+  padding: 8px 0;
+  overflow: auto;
+}
+
+.editor-line {
+  display: flex;
+  line-height: 1.6;
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+}
+
+.line-number {
+  width: 40px;
+  text-align: right;
+  padding-right: 12px;
+  color: #555;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.line-content {
+  color: #d4d4d4;
+}
+
+.editor-status {
+  padding: 2px 12px;
+  font-size: 11px;
+  color: #888;
+  background: #252526;
+  border-top: 1px solid #3c3c3c;
+}
+
+/* Terminal */
+.terminal {
+  height: 100%;
+  background: #1e1e1e;
+  display: flex;
+  flex-direction: column;
+}
+
+.terminal-content {
+  flex: 1;
+  padding: 8px 12px;
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+  overflow: auto;
+}
+
+.terminal-line {
+  line-height: 1.6;
+  white-space: pre;
+}
+
+.terminal-cursor::after {
+  content: '\25AE';
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* bwin overrides for dark theme */
+bw-glass {
+  background-color: #1e1e1e !important;
+  border-color: #3c3c3c !important;
+}
+
+bw-glass-header {
+  background-color: #2d2d2d !important;
+  border-color: #3c3c3c !important;
+  color: #ccc !important;
+}
+
+bw-glass-title {
+  font-size: 12px;
+}
+
+.bw-glass-action {
+  background: transparent;
+  border-color: #555 !important;
+  color: #ccc;
+  font-size: 11px;
+  width: 20px;
+  height: 20px;
+}
+
+.bw-glass-action:hover {
+  background: #3c3c3c !important;
+}
+
+bw-muntin {
+  background-color: #3c3c3c !important;
+}
+
+bw-pane {
+  background-color: #1e1e1e !important;
+}
