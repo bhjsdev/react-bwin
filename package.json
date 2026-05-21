@@ -46,6 +46,7 @@
     "@types/react-dom": "^16.9.24",
     "@vitejs/plugin-react": "^4.3.4",
     "bwin": "0.2.5",
+    "picocolors": "^1.1.1",
     "prettier": "^3.4.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
