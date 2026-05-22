@@ -133,7 +133,7 @@ export default function App() {
                       size: '50%',
                       title: 'App.tsx',
                       content: <Editor filename="App.tsx" />,
-                      actions: [...BUILTIN_ACTIONS],
+                      actions: [],
                       draggable: true,
                       droppable: true,
                     },
