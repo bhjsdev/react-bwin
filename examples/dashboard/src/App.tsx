@@ -240,7 +240,7 @@ export default function App() {
             {
               id: 'stats',
               position: 'top',
-              size: '120px',
+              size: 0.2,
               title: 'Overview',
               content: <StatsPanel />,
               actions: null,
