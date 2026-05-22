@@ -68,7 +68,7 @@ body,
 .dashboard-body {
   flex: 1;
   position: relative;
-  padding: 8px;
+  margin: 4px;
   overflow: hidden;
 }
 
@@ -78,7 +78,7 @@ body,
   gap: 16px;
   padding: 12px 16px;
   height: 100%;
-  align-items: center;
+  align-items: stretch;
 }
 
 .stat-card {
@@ -314,6 +314,7 @@ bw-glass-title {
   border-radius: 4px !important;
   color: #6b7280;
   background: #fff;
+  width: 20px;
 }
 
 .bw-glass-action:hover {

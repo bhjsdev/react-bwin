@@ -113,7 +113,7 @@ export default function App() {
             {
               id: 'sidebar',
               position: 'left',
-              size: '220px',
+              size: 0.2,
               title: 'Explorer',
               content: <FileExplorer />,
               actions: null,
