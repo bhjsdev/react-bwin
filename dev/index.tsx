@@ -12,6 +12,7 @@ const links = [
   'add-remove-panes',
   'custom-action',
   're-render',
+  'theme',
 ].sort()
 
 const components: Record<string, FunctionComponent> = {}

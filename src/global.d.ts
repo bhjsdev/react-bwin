@@ -60,6 +60,7 @@ declare global {
     width?: number
     height?: number
     fitContainer?: boolean
+    theme?: string
     title?: React.ReactNode
     content?: React.ReactNode
     children?: ConfigNode[]
@@ -71,17 +72,20 @@ declare global {
     windowElement: HTMLElement
     containerElement: HTMLElement
     sillElement: HTMLElement
+    theme: string
     mount(container: HTMLElement): void
     enableFeatures(): void
     fit(): void
     addPane(targetPaneId: string, fields: PaneFields): Sash
     removePane(targetPaneId: string): void
+    setTheme(theme: string): void
   }
 
   type WindowHandle = {
     addPane: (targetPaneId: string, fields: PaneFields) => void
     removePane: (targetPaneId: string) => void
     fit: () => void
+    setTheme: (theme: string) => void
   }
 
   type WindowProps = Omit<ConfigRoot, 'children'> & {
