@@ -50,6 +50,7 @@ export default forwardRef<WindowHandle, WindowProps>((props, ref) => {
     () => ({
       fit: bwin.fit.bind(bwin),
       removePane: bwin.removePane.bind(bwin),
+      setTheme: bwin.setTheme.bind(bwin),
       addPane,
     }),
     []
@@ -58,6 +59,7 @@ export default forwardRef<WindowHandle, WindowProps>((props, ref) => {
   const windowNode = (
     <bw-window
       root-sash-id={bwin.rootSash.id}
+      theme={bwin.theme || undefined}
       style={{ width: bwin.rootSash.width, height: bwin.rootSash.height }}
       ref={windowRef}
     >

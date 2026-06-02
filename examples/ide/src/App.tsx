@@ -19,7 +19,9 @@ function FileExplorer() {
       <ul className="file-tree">
         {files.map((f) => (
           <li key={f.name} className={`file-item file-item--${f.type}`}>
-            <span className="file-icon">{f.type === 'dir' ? '\u{1F4C1}' : '\u{1F4C4}'}</span>
+            <span className="file-icon">
+              {f.type === 'dir' ? '\u{1F4C1}' : '\u{1F4C4}'}
+            </span>
             {f.name}
           </li>
         ))}
@@ -70,7 +72,9 @@ function Terminal() {
     <div className="terminal">
       <div className="terminal-content">
         {lines.map((line, i) => (
-          <div key={i} className="terminal-line">{line}</div>
+          <div key={i} className="terminal-line">
+            {line}
+          </div>
         ))}
         <div className="terminal-line terminal-cursor">$&nbsp;</div>
       </div>
@@ -102,13 +106,16 @@ export default function App() {
     <div className="ide-container">
       <div className="ide-toolbar">
         <span className="ide-title">react-bwin IDE Example</span>
-        <button className="ide-btn" onClick={handleAddTab}>+ New Tab</button>
+        <button className="ide-btn" onClick={handleAddTab}>
+          + New Tab
+        </button>
         <span className="ide-status">{status}</span>
       </div>
       <div className="ide-window">
         <Window
           ref={windowRef}
           fitContainer
+          theme="dark"
           panes={[
             {
               id: 'sidebar',
@@ -143,7 +150,7 @@ export default function App() {
                       size: '50%',
                       title: 'main.tsx',
                       content: <Editor filename="main.tsx" />,
-                      actions: [...BUILTIN_ACTIONS],
+                      actions: [BUILTIN_ACTIONS[2]],
                       draggable: true,
                       droppable: true,
                     },
@@ -155,7 +162,7 @@ export default function App() {
                   size: '30%',
                   title: 'Terminal',
                   content: <Terminal />,
-                  actions: [...BUILTIN_ACTIONS],
+                  actions: [BUILTIN_ACTIONS[2]],
                   draggable: true,
                   droppable: true,
                 },
