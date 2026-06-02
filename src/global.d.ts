@@ -1,6 +1,8 @@
 declare module 'react-bwin' {
   export const BUILTIN_ACTIONS: Action[]
-  export const Window: React.FC<WindowProps>
+  export const Window: React.ForwardRefExoticComponent<
+    WindowProps & React.RefAttributes<WindowHandle>
+  >
 }
 
 declare global {
