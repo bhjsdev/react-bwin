@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Window, BUILTIN_ACTIONS } from 'react-bwin'
+import { Window, DEFAULT_GLASS_ACTIONS } from 'react-bwin'
 import 'react-bwin/react-bwin.css'
 
 const files = [
@@ -116,6 +116,9 @@ export default function App() {
           ref={windowRef}
           fitContainer
           theme="dark"
+          actions={
+            [DEFAULT_GLASS_ACTIONS[2]]
+          }
           panes={[
             {
               id: 'sidebar',
@@ -140,7 +143,6 @@ export default function App() {
                       size: '50%',
                       title: 'App.tsx',
                       content: <Editor filename="App.tsx" />,
-                      actions: [],
                       draggable: true,
                       droppable: true,
                     },
@@ -150,7 +152,6 @@ export default function App() {
                       size: '50%',
                       title: 'main.tsx',
                       content: <Editor filename="main.tsx" />,
-                      actions: [BUILTIN_ACTIONS[2]],
                       draggable: true,
                       droppable: true,
                     },
@@ -162,7 +163,6 @@ export default function App() {
                   size: '30%',
                   title: 'Terminal',
                   content: <Terminal />,
-                  actions: [BUILTIN_ACTIONS[2]],
                   draggable: true,
                   droppable: true,
                 },

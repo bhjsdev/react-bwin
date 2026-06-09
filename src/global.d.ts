@@ -1,5 +1,7 @@
 declare module 'react-bwin' {
   export const BUILTIN_ACTIONS: Action[]
+  export const DEFAULT_GLASS_ACTIONS: Action[]
+  export const DEFAULT_DETACHED_GLASS_ACTIONS: Action[]
   export const Window: React.ForwardRefExoticComponent<
     WindowProps & React.RefAttributes<WindowHandle>
   >
@@ -63,6 +65,7 @@ declare global {
     height?: number
     fitContainer?: boolean
     theme?: string
+    actions?: Actions | [Actions, Actions?]
     title?: React.ReactNode
     content?: React.ReactNode
     children?: ConfigNode[]
