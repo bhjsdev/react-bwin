@@ -4,5 +4,4 @@ packages:
 allowBuilds:
   esbuild: true
 
-minimumReleaseAgeExclude:
-  - bwin@0.3.3
+minimumReleaseAge: 0
