@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react'
-import { DEFAULT_GLASS_ACTIONS } from 'bwin'
 
 export default function Pane({
   sash,
@@ -17,7 +16,7 @@ export default function Pane({
 
   const actions =
     sash.store?.actions === undefined
-      ? DEFAULT_GLASS_ACTIONS
+      ? bwin.actions[0]
       : Array.isArray(sash.store.actions)
         ? sash.store.actions
         : []

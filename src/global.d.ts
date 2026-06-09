@@ -78,6 +78,7 @@ declare global {
     containerElement: HTMLElement
     sillElement: HTMLElement
     theme: string
+    actions: [Action[], Action[]]
     mount(container: HTMLElement): void
     enableFeatures(): void
     fit(): void
