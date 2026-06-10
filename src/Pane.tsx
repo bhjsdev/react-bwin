@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react'
-import { BUILTIN_ACTIONS } from 'bwin'
 
 export default function Pane({
   sash,
@@ -17,7 +16,7 @@ export default function Pane({
 
   const actions =
     sash.store?.actions === undefined
-      ? BUILTIN_ACTIONS
+      ? bwin.actions[0]
       : Array.isArray(sash.store.actions)
         ? sash.store.actions
         : []
@@ -34,9 +33,7 @@ export default function Pane({
         <bw-glass-header
           can-drag={sash.store?.draggable === false ? 'false' : 'true'}
         >
-          {sash.store?.title && (
-            <bw-glass-title>{sash.store.title}</bw-glass-title>
-          )}
+          <bw-glass-title>{sash.store?.title}</bw-glass-title>
           {actions.length > 0 && (
             <bw-glass-action-container>
               {actions.map((action: any, key: number) => {

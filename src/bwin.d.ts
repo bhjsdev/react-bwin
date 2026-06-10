@@ -1,5 +1,7 @@
 declare module 'bwin' {
   export const BUILTIN_ACTIONS: Action[]
+  export const DEFAULT_GLASS_ACTIONS: Action[]
+  export const DEFAULT_DETACHED_GLASS_ACTIONS: Action[]
   export const BinaryWindow: BinaryWindow
 }
 

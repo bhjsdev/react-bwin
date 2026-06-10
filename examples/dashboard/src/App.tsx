@@ -1,8 +1,16 @@
 import { useRef, useState } from 'react'
-import { Window, BUILTIN_ACTIONS } from 'react-bwin'
+import { Window } from 'react-bwin'
 import 'react-bwin/react-bwin.css'
 
-function StatCard({ label, value, trend }: { label: string; value: string; trend: string }) {
+function StatCard({
+  label,
+  value,
+  trend,
+}: {
+  label: string
+  value: string
+  trend: string
+}) {
   const isUp = trend.startsWith('+')
   return (
     <div className="stat-card">
@@ -34,15 +42,18 @@ function BarChart() {
     { label: 'Sat', value: 55 },
     { label: 'Sun', value: 40 },
   ]
-  const max = Math.max(...data.map(d => d.value))
+  const max = Math.max(...data.map((d) => d.value))
 
   return (
     <div className="chart-container">
       <div className="chart-title">Weekly Traffic</div>
       <div className="bar-chart">
-        {data.map(d => (
+        {data.map((d) => (
           <div key={d.label} className="bar-col">
-            <div className="bar" style={{ height: `${(d.value / max) * 100}%` }} />
+            <div
+              className="bar"
+              style={{ height: `${(d.value / max) * 100}%` }}
+            />
             <div className="bar-label">{d.label}</div>
           </div>
         ))}
@@ -103,7 +114,7 @@ function DonutChart() {
       <div className="chart-title">Traffic Sources</div>
       <div className="donut-wrapper">
         <svg viewBox="0 0 100 100" className="donut-svg">
-          {segments.map(seg => {
+          {segments.map((seg) => {
             const dash = (seg.pct / 100) * circumference
             const gap = circumference - dash
             const currentOffset = offset
@@ -111,7 +122,9 @@ function DonutChart() {
             return (
               <circle
                 key={seg.label}
-                cx="50" cy="50" r={radius}
+                cx="50"
+                cy="50"
+                r={radius}
                 fill="none"
                 stroke={seg.color}
                 strokeWidth="12"
@@ -122,7 +135,7 @@ function DonutChart() {
           })}
         </svg>
         <div className="donut-legend">
-          {segments.map(seg => (
+          {segments.map((seg) => (
             <div key={seg.label} className="legend-item">
               <span className="legend-dot" style={{ background: seg.color }} />
               {seg.label} ({seg.pct}%)
@@ -146,10 +159,20 @@ function DataTable() {
     <div className="data-table-wrapper">
       <div className="chart-title">Top Pages</div>
       <table className="data-table">
-        <thead><tr><th>Page</th><th>Views</th><th>Bounce</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Page</th>
+            <th>Views</th>
+            <th>Bounce</th>
+          </tr>
+        </thead>
         <tbody>
-          {rows.map(r => (
-            <tr key={r.page}><td>{r.page}</td><td>{r.views}</td><td>{r.bounce}</td></tr>
+          {rows.map((r) => (
+            <tr key={r.page}>
+              <td>{r.page}</td>
+              <td>{r.views}</td>
+              <td>{r.bounce}</td>
+            </tr>
           ))}
         </tbody>
       </table>
@@ -208,7 +231,7 @@ export default function App() {
     windowRef.current?.addPane('stats', {
       position: 'bottom',
       size: 0.4,
-      title: `${widgetOptions.find(w => w.id === selectedWidget)?.label} #${counter}`,
+      title: `${widgetOptions.find((w) => w.id === selectedWidget)?.label} #${counter}`,
       content: <Widget />,
       draggable: true,
       droppable: true,
@@ -223,13 +246,17 @@ export default function App() {
           <select
             className="widget-select"
             value={selectedWidget}
-            onChange={e => setSelectedWidget(e.target.value)}
+            onChange={(e) => setSelectedWidget(e.target.value)}
           >
-            {widgetOptions.map(w => (
-              <option key={w.id} value={w.id}>{w.label}</option>
+            {widgetOptions.map((w) => (
+              <option key={w.id} value={w.id}>
+                {w.label}
+              </option>
             ))}
           </select>
-          <button className="add-btn" onClick={handleAddWidget}>+ Add Widget</button>
+          <button className="add-btn" onClick={handleAddWidget}>
+            + Add Widget
+          </button>
         </div>
       </header>
       <div className="dashboard-body">
@@ -256,7 +283,6 @@ export default function App() {
                   size: '50%',
                   title: 'Traffic',
                   content: <BarChart />,
-                  actions: [...BUILTIN_ACTIONS],
                   draggable: true,
                   droppable: true,
                 },
@@ -269,7 +295,6 @@ export default function App() {
                       size: '55%',
                       title: 'Sources',
                       content: <DonutChart />,
-                      actions: [...BUILTIN_ACTIONS],
                       draggable: true,
                       droppable: true,
                     },
@@ -278,7 +303,6 @@ export default function App() {
                       position: 'bottom',
                       title: 'Activity',
                       content: <ActivityList />,
-                      actions: [...BUILTIN_ACTIONS],
                       draggable: true,
                       droppable: true,
                     },

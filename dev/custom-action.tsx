@@ -1,5 +1,5 @@
 import React from 'react'
-import { Window, BUILTIN_ACTIONS } from '../src'
+import { Window, DEFAULT_GLASS_ACTIONS } from '../src'
 
 export default function App() {
   return (
@@ -25,7 +25,7 @@ export default function App() {
                   }
                 },
               },
-              ...BUILTIN_ACTIONS,
+              ...DEFAULT_GLASS_ACTIONS,
             ],
           },
         ]}

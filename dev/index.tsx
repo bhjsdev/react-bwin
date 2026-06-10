@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import './index.css'
 
 const links = [
+  'actions',
   'adhoc',
   'update-pane-content',
   'update-pane-content-zustand',

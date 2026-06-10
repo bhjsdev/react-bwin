@@ -1,4 +1,4 @@
-import { BinaryWindow, BUILTIN_ACTIONS } from 'bwin'
+import { BinaryWindow, DEFAULT_GLASS_ACTIONS } from 'bwin'
 
 const settings: ConfigRoot = {
   width: 444,
@@ -21,7 +21,7 @@ const settings: ConfigRoot = {
             }
           },
         },
-        ...BUILTIN_ACTIONS,
+        ...DEFAULT_GLASS_ACTIONS,
       ],
     },
     {
