@@ -33,9 +33,7 @@ export default function Pane({
         <bw-glass-header
           can-drag={sash.store?.draggable === false ? 'false' : 'true'}
         >
-          {sash.store?.title && (
-            <bw-glass-title>{sash.store.title}</bw-glass-title>
-          )}
+          <bw-glass-title>{sash.store?.title}</bw-glass-title>
           {actions.length > 0 && (
             <bw-glass-action-container>
               {actions.map((action: any, key: number) => {
