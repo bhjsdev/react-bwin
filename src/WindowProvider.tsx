@@ -23,13 +23,5 @@ export function useWindow(): WindowApi {
     throw new Error('useWindow must be used within a WindowProvider')
   }
 
-  const { api } = context
-
-  return {
-    addPane: (targetPaneId, fields) =>
-      api.current?.addPane(targetPaneId, fields),
-    removePane: (targetPaneId) => api.current?.removePane(targetPaneId),
-    fit: () => api.current?.fit(),
-    setTheme: (theme) => api.current?.setTheme(theme),
-  }
+  return context.api.current!
 }

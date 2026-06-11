@@ -12,6 +12,10 @@ export default function App() {
 function Main() {
   const { addPane, removePane, fit, setTheme } = useWindow()
 
+  React.useEffect(() => {
+    setTheme('dark')
+  })
+
   function handlePaneAdd() {
     addPane('a', {
       position: 'right',
@@ -31,7 +35,7 @@ function Main() {
       <button onClick={handlePaneAdd}>Add pane</button>
       <button onClick={handlePaneRemove}>Remove pane</button>
       <button onClick={() => fit()}>Fit</button>
-      <button onClick={() => setTheme('dark')}>Dark theme</button>
+      <button onClick={() => setTheme('light')}>Light theme</button>
       <Window
         id="root"
         width={444}
