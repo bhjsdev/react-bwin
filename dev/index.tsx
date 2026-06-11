@@ -14,6 +14,7 @@ const links = [
   'custom-action',
   're-render',
   'theme',
+  'window-provider',
 ].sort()
 
 const components: Record<string, FunctionComponent> = {}
