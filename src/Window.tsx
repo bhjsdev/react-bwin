@@ -1,6 +1,7 @@
 import React, {
   useRef,
   useEffect,
+  useContext,
   forwardRef,
   useImperativeHandle,
   useMemo,
@@ -11,9 +12,10 @@ import { createPortal } from 'react-dom'
 import { BinaryWindow } from 'bwin'
 import Muntin from './Muntin.tsx'
 import Pane from './Pane.tsx'
+import { WindowContext } from './WindowProvider.tsx'
 import 'bwin/bwin.css'
 
-export default forwardRef<WindowHandle, WindowProps>((props, ref) => {
+export default forwardRef<WindowApi, WindowProps>((props, ref) => {
   const windowRef = useRef<HTMLElement>()
   const sillRef = useRef<HTMLElement>()
   const [paneContentPortals, setPaneContentPortals] =
@@ -55,6 +57,25 @@ export default forwardRef<WindowHandle, WindowProps>((props, ref) => {
     }),
     []
   )
+
+  const windowContext = useContext(WindowContext)
+
+  useEffect(() => {
+    if (!windowContext) {
+      return
+    }
+
+    windowContext.api.current = {
+      fit: bwin.fit.bind(bwin),
+      removePane: bwin.removePane.bind(bwin),
+      setTheme: bwin.setTheme.bind(bwin),
+      addPane,
+    }
+
+    return () => {
+      windowContext.api.current = null
+    }
+  }, [])
 
   const windowNode = (
     <bw-window

@@ -1,33 +1,38 @@
 import * as React from 'react'
 
-type WindowApi = {
-  addPane: () => void
-  removePane: () => void
-  fit: () => void
-  setTheme: (theme: string) => void
+type WindowContextValue = {
+  api: React.MutableRefObject<WindowApi | null>
 }
 
-const api: WindowApi = {
-  addPane: () => {
-    console.log('no-op addPane')
-  },
-  removePane: () => {
-    console.log('no-op removePane')
-  },
-  fit: () => {
-    console.log('no-op fit')
-  },
-  setTheme: (theme: string) => {
-    console.log('no-op setTheme', theme)
-  },
-}
-
-const WindowContext = React.createContext<WindowApi>(api)
+export const WindowContext = React.createContext<WindowContextValue | null>(
+  null
+)
 
 export function WindowProvider({ children }: React.PropsWithChildren<{}>) {
-  return <WindowContext.Provider value={api}>{children}</WindowContext.Provider>
+  const api = React.useRef<WindowApi | null>(null)
+
+  return (
+    <WindowContext.Provider value={{ api }}>{children}</WindowContext.Provider>
+  )
 }
 
-export function useWindow() {
-  return React.useContext(WindowContext)
+export function useWindow(): WindowApi {
+  const context = React.useContext(WindowContext)
+
+  if (!context) {
+    throw new Error('useWindow must be used within a WindowProvider')
+  }
+
+  const { api } = context
+
+  return React.useMemo<WindowApi>(
+    () => ({
+      addPane: (targetPaneId, fields) =>
+        api.current?.addPane(targetPaneId, fields),
+      removePane: (targetPaneId) => api.current?.removePane(targetPaneId),
+      fit: () => api.current?.fit(),
+      setTheme: (theme) => api.current?.setTheme(theme),
+    }),
+    [api]
+  )
 }

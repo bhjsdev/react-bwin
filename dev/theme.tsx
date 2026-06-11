@@ -25,7 +25,7 @@ const inputs = (
 )
 
 export default function App() {
-  const windowRef = useRef<WindowHandle>(null)
+  const windowRef = useRef<WindowApi>(null)
   const [themeInput, setThemeInput] = useState('dark')
 
   function toggleTheme() {

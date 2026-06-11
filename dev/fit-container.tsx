@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { Window } from '../src'
 
 export default function App() {
-  const windowRef = useRef<WindowHandle>(null)
+  const windowRef = useRef<WindowApi>(null)
 
   return (
     <div style={{ padding: 20 }}>

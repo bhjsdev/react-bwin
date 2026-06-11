@@ -10,16 +10,28 @@ export default function App() {
 }
 
 function Main() {
-  const { addPane } = useWindow()
+  const { addPane, removePane, fit, setTheme } = useWindow()
 
   function handlePaneAdd() {
-    addPane()
+    addPane('a', {
+      position: 'right',
+      size: 0.3,
+      title: 'New title',
+      content: <i>New content</i>,
+    })
+  }
+
+  function handlePaneRemove() {
+    removePane('a')
   }
 
   return (
     <div style={{ padding: 20 }}>
       <h2>Window Provider</h2>
       <button onClick={handlePaneAdd}>Add pane</button>
+      <button onClick={handlePaneRemove}>Remove pane</button>
+      <button onClick={() => fit()}>Fit</button>
+      <button onClick={() => setTheme('dark')}>Dark theme</button>
       <Window
         id="root"
         width={444}
@@ -27,12 +39,16 @@ function Main() {
         panes={[
           {
             size: 0.4,
+            id: 'a',
+            content: 'a',
           },
           {
             children: [
               {
                 size: 0.5,
                 position: 'top',
+                id: 'b',
+                content: 'b',
               },
             ],
           },
