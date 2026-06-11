@@ -25,14 +25,11 @@ export function useWindow(): WindowApi {
 
   const { api } = context
 
-  return React.useMemo<WindowApi>(
-    () => ({
-      addPane: (targetPaneId, fields) =>
-        api.current?.addPane(targetPaneId, fields),
-      removePane: (targetPaneId) => api.current?.removePane(targetPaneId),
-      fit: () => api.current?.fit(),
-      setTheme: (theme) => api.current?.setTheme(theme),
-    }),
-    [api]
-  )
+  return {
+    addPane: (targetPaneId, fields) =>
+      api.current?.addPane(targetPaneId, fields),
+    removePane: (targetPaneId) => api.current?.removePane(targetPaneId),
+    fit: () => api.current?.fit(),
+    setTheme: (theme) => api.current?.setTheme(theme),
+  }
 }
