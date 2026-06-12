@@ -35,28 +35,27 @@ export function useWindow(): WindowApi {
   //     setTheme('dark')
   //   }, [setTheme]) // setTheme is stable, so this effect runs only once
   //
-  // Methods resolve api.current at call time, since the window only populates
-  // it after it mounts.
+  // The Proxy forwards any method to api.current at call time (the window only
+  // populates it after it mounts), throwing if it's not ready. New WindowApi
+  // methods work automatically — no need to list them here.
   const apiRef = React.useRef<WindowApi>()
-  
+
   if (!apiRef.current) {
-    apiRef.current = {
-      addPane: (...args) => resolve(api).addPane(...args),
-      removePane: (...args) => resolve(api).removePane(...args),
-      fit: (...args) => resolve(api).fit(...args),
-      setTheme: (...args) => resolve(api).setTheme(...args),
-    }
+    apiRef.current = new Proxy({} as WindowApi, {
+      get(_target, key: keyof WindowApi) {
+        return (...args: unknown[]) => {
+          if (!api.current) {
+            throw new Error(
+              '[react-bwin] Window API is not ready yet. ' +
+                'Render a <Window> inside the <WindowProvider> before calling its methods.'
+            )
+          }
+          const method = api.current[key] as (...args: unknown[]) => unknown
+          return method(...args)
+        }
+      },
+    })
   }
 
   return apiRef.current
-}
-
-function resolve(api: React.MutableRefObject<WindowApi | null>): WindowApi {
-  if (!api.current) {
-    throw new Error(
-      '[react-bwin] Window API is not ready yet. ' +
-        'Render a <Window> inside the <WindowProvider> before calling its methods.'
-    )
-  }
-  return api.current
 }
