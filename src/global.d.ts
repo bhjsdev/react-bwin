@@ -3,8 +3,12 @@ declare module 'react-bwin' {
   export const DEFAULT_GLASS_ACTIONS: Action[]
   export const DEFAULT_DETACHED_GLASS_ACTIONS: Action[]
   export const Window: React.ForwardRefExoticComponent<
-    WindowProps & React.RefAttributes<WindowHandle>
+    WindowProps & React.RefAttributes<WindowApi>
   >
+  export const WindowProvider: React.FunctionComponent<
+    React.PropsWithChildren<{}>
+  >
+  export function useWindow(): WindowApi
 }
 
 declare global {
@@ -87,12 +91,17 @@ declare global {
     setTheme(theme: string): void
   }
 
-  type WindowHandle = {
+  type WindowApi = {
     addPane: (targetPaneId: string, fields: PaneFields) => void
     removePane: (targetPaneId: string) => void
     fit: () => void
     setTheme: (theme: string) => void
   }
+
+  /**
+   * @deprecated Use {@link WindowApi} instead.
+   */
+  type WindowHandle = WindowApi
 
   type WindowProps = Omit<ConfigRoot, 'children'> & {
     panes?: ConfigNode[]

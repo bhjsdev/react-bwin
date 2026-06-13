@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react'
-import { Window } from 'react-bwin'
+import { useState } from 'react'
+import { Window, WindowProvider, useWindow } from 'react-bwin'
 import 'react-bwin/react-bwin.css'
 
 function StatCard({
@@ -222,13 +222,21 @@ const widgetComponents: Record<string, () => JSX.Element> = {
 let counter = 0
 
 export default function App() {
-  const windowRef = useRef<WindowHandle>(null)
+  return (
+    <WindowProvider>
+      <Dashboard />
+    </WindowProvider>
+  )
+}
+
+function Dashboard() {
+  const { addPane } = useWindow()
   const [selectedWidget, setSelectedWidget] = useState('table')
 
   function handleAddWidget() {
     counter++
     const Widget = widgetComponents[selectedWidget]
-    windowRef.current?.addPane('stats', {
+    addPane('stats', {
       position: 'bottom',
       size: 0.4,
       title: `${widgetOptions.find((w) => w.id === selectedWidget)?.label} #${counter}`,
@@ -261,7 +269,6 @@ export default function App() {
       </header>
       <div className="dashboard-body">
         <Window
-          ref={windowRef}
           fitContainer
           panes={[
             {

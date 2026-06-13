@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { Window } from '../src'
 
 export default function App() {
-  const windowRef = useRef<WindowHandle>(null)
+  const windowRef = useRef<WindowApi>(null)
 
   useEffect(() => {
     console.log(windowRef.current)

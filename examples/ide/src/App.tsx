@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react'
-import { Window, DEFAULT_GLASS_ACTIONS } from 'react-bwin'
+import { useState } from 'react'
+import { Window, WindowProvider, useWindow, DEFAULT_GLASS_ACTIONS } from 'react-bwin'
 import 'react-bwin/react-bwin.css'
 
 const files = [
@@ -85,13 +85,21 @@ function Terminal() {
 let paneCounter = 0
 
 export default function App() {
-  const windowRef = useRef<WindowHandle>(null)
+  return (
+    <WindowProvider>
+      <Ide />
+    </WindowProvider>
+  )
+}
+
+function Ide() {
+  const { addPane } = useWindow()
   const [status, setStatus] = useState('Ready')
 
   function handleAddTab() {
     paneCounter++
     const name = `new-file-${paneCounter}.ts`
-    windowRef.current?.addPane('editor-1', {
+    addPane('editor-1', {
       position: 'right',
       size: 0.5,
       title: name,
@@ -113,7 +121,6 @@ export default function App() {
       </div>
       <div className="ide-window">
         <Window
-          ref={windowRef}
           fitContainer
           theme="dark"
           actions={
