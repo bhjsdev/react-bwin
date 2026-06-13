@@ -108,6 +108,7 @@ declare global {
   }
 
   type PaneFields = {
+    id?: string
     size?: number | string
     position?: Position
     title?: React.ReactNode
