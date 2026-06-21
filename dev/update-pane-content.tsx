@@ -6,11 +6,11 @@ const ContentContext = createContext<{
   updateStore: (key: string, value: unknown) => void
 }>({
   store: {},
-  updateStore: () => {},
+  updateStore: () => { },
 })
 
 function StoreProvider({ children }: { children: ReactNode }) {
-  const [store, setStore] = useState<Record<string, unknown>>({})
+  const [store, setStore] = useState<Record<string, unknown>>({x: 'default external content'})
 
   function updateStore(key: string, value: unknown) {
     setStore((prev) => ({ ...prev, [key]: value }))
@@ -23,12 +23,8 @@ function StoreProvider({ children }: { children: ReactNode }) {
   )
 }
 
-function useStore() {
-  return useContext(ContentContext)
-}
-
 function PaneContent() {
-  const { store } = useStore()
+  const { store } = useContext(ContentContext)
   const [internal, setInternalContent] = useState('default internal content')
 
   return (
@@ -43,7 +39,7 @@ function PaneContent() {
 }
 
 function Main() {
-  const { updateStore } = useStore()
+  const { updateStore } = useContext(ContentContext)
 
   return (
     <div style={{ padding: 20 }}>
