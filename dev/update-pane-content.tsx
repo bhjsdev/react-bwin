@@ -9,7 +9,7 @@ const ContentContext = createContext<{
   updateStore: () => {},
 })
 
-function WindowProvider({ children }: { children: ReactNode }) {
+function StoreProvider({ children }: { children: ReactNode }) {
   const [store, setStore] = useState<Record<string, unknown>>({})
 
   function updateStore(key: string, value: unknown) {
@@ -67,8 +67,8 @@ function Main() {
 
 export default function App() {
   return (
-    <WindowProvider>
+    <StoreProvider>
       <Main />
-    </WindowProvider>
+    </StoreProvider>
   )
 }
