@@ -17,7 +17,7 @@ import { WindowContext } from './WindowProvider.tsx'
 import 'bwin/bwin.css'
 
 // Maps a sash id to the content node and the bw-glass-content it portals into.
-type PaneContentPortals = Map<string, { node: ReactNode; container: HTMLElement }>
+type PaneContentPortalMap = Map<string, { node: ReactNode; container: HTMLElement }>
 
 export default forwardRef<WindowApi, WindowProps>((props, ref) => {
   const windowRef = useRef<HTMLElement>()
@@ -25,7 +25,7 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
   // Pane content renders via portals keyed by sash id, so updatePane can swap a
   // single pane's content without re-rendering the memoized window tree.
   const [paneContentPortals, setPaneContentPortals] =
-    useState<PaneContentPortals>(() => new Map())
+    useState<PaneContentPortalMap>(() => new Map())
 
   const { panes: panesProp, ...restProps } = props
   const settings = { ...restProps, children: panesProp }
@@ -56,7 +56,7 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
   // Seed each pane's initial content into a portal before paint (avoids a flash
   // of empty panes).
   useLayoutEffect(() => {
-    const initial: PaneContentPortals = new Map()
+    const initial: PaneContentPortalMap = new Map()
 
     for (const sash of panes) {
       if (sash.store?.content == null) continue
