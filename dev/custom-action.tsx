@@ -1,12 +1,36 @@
 import React from 'react'
 import { Window, DEFAULT_GLASS_ACTIONS } from '../src'
 
+const dropdownActions = [
+  {
+    label: 'Action 1',
+    placement: 'list',
+    onClick: () => {
+      alert('Action 1 clicked');
+    },
+  },
+  {
+    label: 'Dummy action',
+    placement: 'list',
+    onClick: () => {
+      alert('Dummy action clicked');
+    },
+  },
+  {
+    label: 'Dummy action 2',
+    placement: 'list',
+    onClick: () => {
+      alert('Dummy action 2 clicked');
+    },
+  },
+];
+
 export default function App() {
   return (
     <div style={{ padding: 20 }}>
       <h2>Custom action</h2>
       <Window
-        width={444}
+        width={777}
         height={333}
         panes={[
           {
@@ -25,6 +49,7 @@ export default function App() {
                   }
                 },
               },
+              ...dropdownActions,
               ...DEFAULT_GLASS_ACTIONS,
             ],
           },

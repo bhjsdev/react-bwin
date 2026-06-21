@@ -8,11 +8,20 @@ export default function Pane({
   bwin: BinaryWindow
 }) {
   const paneRef = useRef()
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const menuRef = useRef<HTMLElement>()
   const { left, top, width, height, id, position } = sash
 
   useEffect(() => {
     sash.domNode = paneRef.current
   }, [])
+
+  // Link trigger to menu by element reference once both are mounted.
+  useEffect(() => {
+    if (triggerRef.current && menuRef.current) {
+      triggerRef.current.popoverTargetElement = menuRef.current
+    }
+  })
 
   const actions =
     sash.store?.actions === undefined
@@ -20,6 +29,14 @@ export default function Pane({
       : Array.isArray(sash.store.actions)
         ? sash.store.actions
         : []
+
+  const listActions = actions.filter(
+    (action: any) => action.placement === 'list'
+  )
+
+  const barActions = actions.filter(
+    (action: any) => action.placement === undefined || action.placement === 'bar'
+  )
 
   return (
     <bw-pane
@@ -33,25 +50,51 @@ export default function Pane({
         <bw-glass-header
           can-drag={sash.store?.draggable === false ? 'false' : 'true'}
         >
+          {listActions.length > 0 && (
+            <>
+              <button className="bw-action-menu-trigger" ref={triggerRef} />
+              <bw-action-menu popover="auto" ref={menuRef}>
+                {listActions.map((action: any, key: number) => {
+                  const className = action.className
+                    ? `bw-action ${action.className}`
+                    : 'bw-action'
+
+                  return (
+                    <button
+                      className={className}
+                      key={key}
+                      onClick={(event) => {
+                        menuRef.current?.hidePopover()
+                        action.onClick(event, bwin)
+                      }}
+                    >
+                      {action.label}
+                    </button>
+                  )
+                })}
+              </bw-action-menu>
+            </>
+          )}
           <bw-glass-title>{sash.store?.title}</bw-glass-title>
-          {actions.length > 0 && (
-            <bw-glass-action-container>
-              {actions.map((action: any, key: number) => {
+          {barActions.length > 0 && (
+            <bw-action-bar>
+              {barActions.map((action: any, key: number) => {
                 const className = action.className
-                  ? `bw-glass-action ${action.className}`
-                  : 'bw-glass-action'
+                  ? `bw-action ${action.className}`
+                  : 'bw-action'
 
                 return (
                   <button
                     className={className}
                     key={key}
+                    bw-action-type={action.type || undefined}
                     onClick={(event) => action.onClick(event, bwin)}
                   >
                     {action.label}
                   </button>
                 )
               })}
-            </bw-glass-action-container>
+            </bw-action-bar>
           )}
         </bw-glass-header>
         <bw-glass-content>{sash.store?.content}</bw-glass-content>

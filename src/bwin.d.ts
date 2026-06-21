@@ -13,7 +13,8 @@ declare namespace JSX {
     'bw-glass': React.DetailedHTMLProps<any, HTMLElement>
     'bw-glass-header': React.DetailedHTMLProps<any, HTMLElement>
     'bw-glass-title': React.DetailedHTMLProps<any, HTMLElement>
-    'bw-glass-action-container': React.DetailedHTMLProps<any, HTMLElement>
+    'bw-action-menu': React.DetailedHTMLProps<any, HTMLElement>
+    'bw-action-bar': React.DetailedHTMLProps<any, HTMLElement>
     'bw-glass-content': React.DetailedHTMLProps<any, HTMLElement>
     'bw-sill': React.DetailedHTMLProps<any, HTMLElement>
   }
