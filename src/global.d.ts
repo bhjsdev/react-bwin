@@ -93,6 +93,7 @@ declare global {
 
   type WindowApi = {
     addPane: (targetPaneId: string, fields: PaneFields) => void
+    updatePane: (sashId: string, fields: { content?: React.ReactNode }) => void
     removePane: (targetPaneId: string) => void
     fit: () => void
     setTheme: (theme: string) => void

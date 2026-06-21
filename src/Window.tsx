@@ -1,6 +1,7 @@
 import React, {
   useRef,
   useEffect,
+  useLayoutEffect,
   useContext,
   forwardRef,
   useImperativeHandle,
@@ -15,11 +16,19 @@ import Pane from './Pane.tsx'
 import { WindowContext } from './WindowProvider.tsx'
 import 'bwin/bwin.css'
 
+type PaneContentPortal = {
+  node: ReactNode
+  container: HTMLElement
+}
+
 export default forwardRef<WindowApi, WindowProps>((props, ref) => {
   const windowRef = useRef<HTMLElement>()
   const sillRef = useRef<HTMLElement>()
-  const [paneContentPortals, setPaneContentPortals] =
-    useState<{ node: ReactNode; container: HTMLElement }[]>()
+  // Pane content renders via portals keyed by sash id, so updatePane can swap a
+  // single pane's content without re-rendering the memoized window tree.
+  const [paneContentPortals, setPaneContentPortals] = useState<
+    Map<string, PaneContentPortal>
+  >(() => new Map())
 
   const { panes: panesProp, ...restProps } = props
   const settings = { ...restProps, children: panesProp }
@@ -47,13 +56,37 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
     }
   }, [])
 
+  // Seed each pane's initial content into a portal before paint (avoids a flash
+  // of empty panes).
+  useLayoutEffect(() => {
+    const initial = new Map<string, PaneContentPortal>()
+
+    for (const sash of panes) {
+      if (sash.store?.content == null) continue
+
+      const container = windowRef.current?.querySelector(
+        `bw-pane[sash-id="${sash.id}"] bw-glass-content`
+      )
+
+      if (container) {
+        initial.set(sash.id, {
+          node: sash.store.content,
+          container: container as HTMLElement,
+        })
+      }
+    }
+
+    setPaneContentPortals(initial)
+  }, [])
+
   useImperativeHandle(
     ref,
     () => ({
       fit: bwin.fit.bind(bwin),
-      removePane: bwin.removePane.bind(bwin),
       setTheme: bwin.setTheme.bind(bwin),
       addPane,
+      removePane,
+      updatePane,
     }),
     []
   )
@@ -67,9 +100,10 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
 
     windowContext.api.current = {
       fit: bwin.fit.bind(bwin),
-      removePane: bwin.removePane.bind(bwin),
       setTheme: bwin.setTheme.bind(bwin),
       addPane,
+      removePane,
+      updatePane,
     }
 
     return () => {
@@ -102,18 +136,41 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
     const glassContentEl = document.querySelector(
       `bw-pane[sash-id="${sash.id}"] bw-glass-content`
     )
-    setPaneContentPortals((prev) => [
-      ...(prev || []),
-      { node: content, container: glassContentEl as HTMLElement },
-    ])
+
+    setPaneContentPortals((prev) =>
+      new Map(prev).set(sash.id, {
+        node: content,
+        container: glassContentEl as HTMLElement,
+      })
+    )
+  }
+
+  function updatePane(sashId: string, fields: { content?: ReactNode }) {
+    setPaneContentPortals((prev) => {
+      const portal = prev.get(sashId)
+      if (!portal) return prev
+      return new Map(prev).set(sashId, { ...portal, node: fields.content })
+    })
+  }
+
+  function removePane(targetPaneId: string) {
+    bwin.removePane(targetPaneId)
+    
+    setPaneContentPortals((prev) => {
+      if (!prev.has(targetPaneId)) return prev
+
+      const next = new Map(prev)
+      next.delete(targetPaneId)
+      return next
+    })
   }
 
   return (
     <>
       {memoizedWindowNode}
-      {paneContentPortals?.map((portal) => {
-        return createPortal(portal.node, portal.container)
-      })}
+      {[...paneContentPortals].map(([sashId, { node, container }]) =>
+        createPortal(node, container, sashId)
+      )}
     </>
   )
 })

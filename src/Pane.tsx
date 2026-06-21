@@ -97,7 +97,8 @@ export default function Pane({
             </bw-action-bar>
           )}
         </bw-glass-header>
-        <bw-glass-content>{sash.store?.content}</bw-glass-content>
+        {/* Content is rendered into here via a portal from Window. */}
+        <bw-glass-content />
       </bw-glass>
     </bw-pane>
   )
