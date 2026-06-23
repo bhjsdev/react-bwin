@@ -90,6 +90,35 @@ declare global {
 
   type UpdatePaneOptions = Omit<PaneFields, 'id' | 'actions'>
 
+  type WindowlessGlassPosition =
+    | 'center'
+    | 'top-left'
+    | 'top-right'
+    | 'bottom-left'
+    | 'bottom-right'
+
+  type WindowlessGlassOptions = {
+    modal?: boolean
+    position?: WindowlessGlassPosition
+    width?: number
+    height?: number
+    offset?: number
+    offsetX?: number
+    offsetY?: number
+    id?: string
+    actions?: Actions
+    title?: React.ReactNode
+    content?: React.ReactNode
+    tabs?: object[]
+    draggable?: boolean
+    resizable?: boolean
+    animateOpen?: boolean
+  }
+
+  type RemoveWindowlessGlassOptions = {
+    animateClose?: boolean
+  }
+
   interface BinaryWindow {
     new(settings: ConfigRoot): BinaryWindow
     rootSash: Sash
@@ -105,12 +134,22 @@ declare global {
     updatePane(sashId: string, fields: UpdatePaneOptions): void
     removePane(sashId: string): void
     setTheme(theme: string): void
+    addWindowlessGlass(options?: WindowlessGlassOptions): HTMLElement
+    removeWindowlessGlass(
+      windowlessGlassId: string,
+      options?: RemoveWindowlessGlassOptions
+    ): HTMLElement | null
   }
 
   type WindowApi = {
     addPane: (targetPaneSashId: string, fields: PaneFields) => void
     updatePane: (sashId: string, fields: UpdatePaneOptions) => void
     removePane: (sashId: string) => void
+    addWindowlessGlass: (options?: WindowlessGlassOptions) => HTMLElement
+    removeWindowlessGlass: (
+      windowlessGlassId: string,
+      options?: RemoveWindowlessGlassOptions
+    ) => HTMLElement | null
     fit: () => void
     setTheme: (theme: string) => void
   }
