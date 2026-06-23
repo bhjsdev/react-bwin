@@ -15,8 +15,10 @@ declare global {
   type Position = 'left' | 'right' | 'top' | 'bottom'
 
   type Action = {
+    id?: string
     label?: string
     className?: string
+    placement?: 'list' | 'menu'
     onClick: (
       event: React.MouseEvent<HTMLButtonElement>,
       bwin: BinaryWindow
@@ -75,8 +77,21 @@ declare global {
     children?: ConfigNode[]
   }
 
+  type PaneFields = {
+    id?: string
+    size?: number | string
+    position?: Position
+    title?: React.ReactNode
+    content?: React.ReactNode
+    actions?: Actions
+    draggable?: boolean
+    droppable?: boolean
+  }
+
+  type UpdatePaneOptions = Omit<PaneFields, 'id' | 'actions'>
+
   interface BinaryWindow {
-    new (settings: ConfigRoot): BinaryWindow
+    new(settings: ConfigRoot): BinaryWindow
     rootSash: Sash
     windowElement: HTMLElement
     containerElement: HTMLElement
@@ -86,15 +101,16 @@ declare global {
     mount(container: HTMLElement): void
     enableFeatures(): void
     fit(): void
-    addPane(targetPaneId: string, fields: PaneFields): Sash
-    removePane(targetPaneId: string): void
+    addPane(targetPaneSashId: string, fields: PaneFields): Sash
+    updatePane(sashId: string, fields: UpdatePaneOptions): void
+    removePane(sashId: string): void
     setTheme(theme: string): void
   }
 
   type WindowApi = {
-    addPane: (targetPaneId: string, fields: PaneFields) => void
-    updatePane: (sashId: string, fields: { content?: React.ReactNode }) => void
-    removePane: (targetPaneId: string) => void
+    addPane: (targetPaneSashId: string, fields: PaneFields) => void
+    updatePane: (sashId: string, fields: UpdatePaneOptions) => void
+    removePane: (sashId: string) => void
     fit: () => void
     setTheme: (theme: string) => void
   }
@@ -108,16 +124,6 @@ declare global {
     panes?: ConfigNode[]
   }
 
-  type PaneFields = {
-    id?: string
-    size?: number | string
-    position?: Position
-    title?: React.ReactNode
-    content?: React.ReactNode
-    actions?: Actions
-    draggable?: boolean
-    droppable?: boolean
-  }
 }
 
 export {

@@ -12,7 +12,7 @@ const links = [
   'docs-example',
   'add-remove-panes',
   'custom-action',
-  'custom-action-update-content',
+  'custom-action-use-window',
   're-render',
   'theme',
   'window-provider',

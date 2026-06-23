@@ -127,9 +127,9 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
 
   const memoizedWindowNode = useMemo(() => windowNode, [])
 
-  function addPane(targetPaneId: string, fields: PaneFields) {
+  function addPane(targetPaneSashId: string, fields: PaneFields) {
     const { content, ...restFields } = fields
-    const sash = bwin.addPane(targetPaneId, restFields)
+    const sash = bwin.addPane(targetPaneSashId, restFields)
     const glassContentEl = document.querySelector(
       `bw-pane[sash-id="${sash.id}"] bw-glass-content`
     )
@@ -142,22 +142,30 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
     )
   }
 
-  function updatePane(sashId: string, fields: { content?: ReactNode }) {
-    setPaneContentPortals((prev) => {
-      const portal = prev.get(sashId)
-      if (!portal) return prev
-      return new Map(prev).set(sashId, { ...portal, node: fields.content })
-    })
+  function updatePane(sashId: string, options: UpdatePaneOptions) {
+    const { content, ...rest } = options
+
+    if (Object.keys(rest).length > 0) {
+      bwin.updatePane(sashId, rest)
+    }
+
+    if ('content' in options) {
+      setPaneContentPortals((prev) => {
+        const portal = prev.get(sashId)
+        if (!portal) return prev
+        return new Map(prev).set(sashId, { ...portal, node: content })
+      })
+    }
   }
 
-  function removePane(targetPaneId: string) {
-    bwin.removePane(targetPaneId)
-    
+  function removePane(sashId: string) {
+    bwin.removePane(sashId)
+
     setPaneContentPortals((prev) => {
-      if (!prev.has(targetPaneId)) return prev
+      if (!prev.has(sashId)) return prev
 
       const next = new Map(prev)
-      next.delete(targetPaneId)
+      next.delete(sashId)
       return next
     })
   }
