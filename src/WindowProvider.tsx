@@ -1,7 +1,10 @@
 import * as React from 'react'
+import { createPortal } from 'react-dom'
+import useWindowlessGlass from './useWindowlessGlass.ts'
 
 type WindowContextValue = {
-  api: React.MutableRefObject<WindowApi | null>
+  windowApi: React.MutableRefObject<WindowApi | null>
+  windowlessApi: WindowlessGlassApi
 }
 
 export const WindowContext = React.createContext<WindowContextValue | null>(
@@ -9,52 +12,64 @@ export const WindowContext = React.createContext<WindowContextValue | null>(
 )
 
 export function WindowProvider({ children }: React.PropsWithChildren<{}>) {
-  const api = React.useRef<WindowApi | null>(null)
+  const windowApi = React.useRef<WindowApi | null>(null)
+
+  // Windowless glass uses static BinaryWindow methods and portals onto
+  // document.body, so it lives on the provider and works without a <Window>.
+  const { windowlessGlassPortals, addWindowlessGlass, removeWindowlessGlass } =
+    useWindowlessGlass()
+
+  const windowlessApi: WindowlessGlassApi = {
+    addWindowlessGlass,
+    removeWindowlessGlass,
+  }
 
   return (
-    <WindowContext.Provider value={{ api }}>{children}</WindowContext.Provider>
+    <WindowContext.Provider value={{ windowApi, windowlessApi }}>
+      {children}
+      {[...windowlessGlassPortals].map(([glassId, { node, container }]) =>
+        createPortal(node, container, glassId)
+      )}
+    </WindowContext.Provider>
   )
 }
 
-export function useWindow(): WindowApi {
+export function useWindow(): WindowApi & WindowlessGlassApi {
   const context = React.useContext(WindowContext)
 
   if (!context) {
     throw new Error('useWindow must be used within a WindowProvider')
   }
 
-  const { api } = context
+  const { windowApi, windowlessApi } = context
 
-  // Lazily build the API wrapper once and lock its identity for the lifetime
-  // of the component (a ref is a true identity guarantee, unlike useMemo whose
-  // cache React may discard). This keeps it safe to use in consumer dependency
-  // arrays, e.g.:
-  //
-  //   const { setTheme } = useWindow()
-  //   React.useEffect(() => {
-  //     setTheme('dark')
-  //   }, [setTheme]) // setTheme is stable, so this effect runs only once
-  //
-  // The Proxy forwards any method to api.current at call time (the window only
-  // populates it after it mounts), throwing if it's not ready. New WindowApi
-  // methods work automatically — no need to list them here.
-  const apiRef = React.useRef<WindowApi>()
+  // Build the API once and lock its identity (via a ref, not useMemo: React may
+  // discard a memo's cache, breaking identity stability) so it's stable in
+  // consumer dependency arrays. Windowless-glass methods are bound directly;
+  // window methods call through to windowApi.current, which the window only
+  // populates after it mounts.
+  const apiRef = React.useRef<WindowApi & WindowlessGlassApi>()
 
   if (!apiRef.current) {
-    apiRef.current = new Proxy({} as WindowApi, {
-      get(_target, key: keyof WindowApi) {
-        return (...args: unknown[]) => {
-          if (!api.current) {
-            throw new Error(
-              '[react-bwin] Window API is not ready yet. ' +
-                'Render a <Window> inside the <WindowProvider> before calling its methods.'
-            )
-          }
-          const method = api.current[key] as (...args: unknown[]) => unknown
-          return method(...args)
-        }
-      },
-    })
+    const getWindowApi = () => {
+      if (!windowApi.current) {
+        throw new Error(
+          '[react-bwin] Window API is not ready yet. ' +
+            'Render a <Window> inside the <WindowProvider> before calling its methods.'
+        )
+      }
+      return windowApi.current
+    }
+
+    apiRef.current = {
+      addPane: (...args) => getWindowApi().addPane(...args),
+      updatePane: (...args) => getWindowApi().updatePane(...args),
+      removePane: (...args) => getWindowApi().removePane(...args),
+      fit: (...args) => getWindowApi().fit(...args),
+      setTheme: (...args) => getWindowApi().setTheme(...args),
+      addWindowlessGlass: windowlessApi.addWindowlessGlass,
+      removeWindowlessGlass: windowlessApi.removeWindowlessGlass,
+    }
   }
 
   return apiRef.current

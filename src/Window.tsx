@@ -12,7 +12,6 @@ import Muntin from './Muntin.tsx'
 import Pane from './Pane.tsx'
 import { WindowContext } from './WindowProvider.tsx'
 import usePaneContentPortals from './usePaneContentPortals.ts'
-import useWindowlessGlass from './useWindowlessGlass.ts'
 import 'bwin/bwin.css'
 
 export default forwardRef<WindowApi, WindowProps>((props, ref) => {
@@ -37,12 +36,6 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
   const { paneContentPortals, addPane, updatePane, removePane } =
     usePaneContentPortals(bwin, windowRef, panes)
 
-  const {
-    windowlessGlassPortals,
-    addWindowlessGlass,
-    removeWindowlessGlass,
-  } = useWindowlessGlass()
-
   useEffect(() => {
     const windowEl = windowRef.current
 
@@ -62,8 +55,6 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
       addPane,
       removePane,
       updatePane,
-      addWindowlessGlass,
-      removeWindowlessGlass,
     }),
     []
   )
@@ -75,18 +66,16 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
       return
     }
 
-    windowContext.api.current = {
+    windowContext.windowApi.current = {
       fit: bwin.fit.bind(bwin),
       setTheme: bwin.setTheme.bind(bwin),
       addPane,
       removePane,
       updatePane,
-      addWindowlessGlass,
-      removeWindowlessGlass,
     }
 
     return () => {
-      windowContext.api.current = null
+      windowContext.windowApi.current = null
     }
   }, [])
 
@@ -114,9 +103,6 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
       {memoizedWindowNode}
       {[...paneContentPortals].map(([sashId, { node, container }]) =>
         createPortal(node, container, sashId)
-      )}
-      {[...windowlessGlassPortals].map(([glassId, { node, container }]) =>
-        createPortal(node, container, glassId)
       )}
     </>
   )

@@ -145,13 +145,18 @@ declare global {
     addPane: (targetPaneSashId: string, fields: PaneFields) => void
     updatePane: (sashId: string, fields: UpdatePaneOptions) => void
     removePane: (sashId: string) => void
+    fit: () => void
+    setTheme: (theme: string) => void
+  }
+
+  // Windowless glass lives on the WindowProvider (static BinaryWindow methods,
+  // no owning window), so its API is separate from the per-Window WindowApi.
+  type WindowlessGlassApi = {
     addWindowlessGlass: (options?: WindowlessGlassOptions) => HTMLElement
     removeWindowlessGlass: (
       windowlessGlassId: string,
       options?: RemoveWindowlessGlassOptions
     ) => HTMLElement | null
-    fit: () => void
-    setTheme: (theme: string) => void
   }
 
   /**

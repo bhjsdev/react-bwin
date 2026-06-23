@@ -1,5 +1,5 @@
 import React from 'react'
-import { Window, WindowProvider, useWindow } from '../src'
+import { WindowProvider, useWindow } from '../src'
 
 export default function App() {
   return (
@@ -73,16 +73,6 @@ function Main() {
       <button onClick={handlePositioned}>Add positioned</button>
       <button onClick={handleFullscreen}>Add fullscreen</button>
       <button onClick={handleNonResizable}>Add non-resizable</button>
-      <Window
-        width={444}
-        height={333}
-        panes={[
-          {
-            id: 'a',
-            content: <i>Use the buttons above to open a windowless glass</i>,
-          },
-        ]}
-      />
     </div>
   )
 }
