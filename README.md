@@ -9,9 +9,7 @@ A React tiling window manager featuring resizable panes, drag-and-drop, and more
 
 ### Why react-bwin
 
-Resizing and dragging stay smooth even with heavy content in every pane.
-
-react-bwin renders the layout DOM once, then hands those nodes to the underlying [bwin](https://github.com/bhjsdev/bwin) engine, which drives interactions with **direct DOM writes** — a pointer move updates the geometry of just the two affected panes and never re-enters React's render cycle. So there's **no virtual-DOM diff on the drag path**: you keep React's component model for your pane content, and get native-feeling resize and drag for the layout.
+Resizing and dragging stay smooth even with heavy content in every pane. react-bwin renders the layout DOM once, then lets the underlying [bwin](https://github.com/bhjsdev/bwin) engine drive interactions with direct DOM writes — so there's **no virtual-DOM diff on the drag path**. Your pane content stays normal React.
 
 ### Install
 
