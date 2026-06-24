@@ -3,29 +3,26 @@
 [![Publish to npm](https://github.com/bhjsdev/react-bwin/actions/workflows/publish.yml/badge.svg)](https://github.com/bhjsdev/react-bwin/actions/workflows/publish.yml)
 [![npm version](https://img.shields.io/npm/v/react-bwin)](https://www.npmjs.com/package/react-bwin)
 
-A React-based tiling window manager featuring resizable panes, drag-and-drop, and more. Built on top of the [Binary Window](https://github.com/bhjsdev/bwin) library.
+A React tiling window manager featuring resizable panes, drag-and-drop, and more. Built on top of the [Binary Window](https://github.com/bhjsdev/bwin) library.
 
 [![A react-bwin tiling layout with resizable panes showing charts and a data table](docs/screenshot.png)](https://bhjsdev.github.io/bwin-docs?theme=dark)
 
-[Documentation](https://bhjsdev.github.io/bwin-docs/react/get-started)
+### Why react-bwin
 
-### Development
+Resizing and dragging stay smooth even with heavy content in every pane.
 
-```bash
-pnpm install
-pnpm dev
-```
+react-bwin renders the layout DOM once, then hands those nodes to the underlying [bwin](https://github.com/bhjsdev/bwin) engine, which drives interactions with **direct DOM writes** — a pointer move updates the geometry of just the two affected panes and never re-enters React's render cycle. So there's **no virtual-DOM diff on the drag path**: you keep React's component model for your pane content, and get native-feeling resize and drag for the layout.
 
-This starts the dev server with internal test pages at `http://localhost:5173`.
-
-### Examples
-
-See the `examples/` directory for standalone apps. They depend on the library's built
-output, so build it first, then run an example (e.g. `dashboard`):
+### Install
 
 ```bash
-pnpm install
-pnpm build
-cd examples/dashboard
-pnpm dev
+npm install react-bwin
 ```
+
+### Documentation
+
+Full guides, API reference, and live examples: [bhjsdev.github.io/bwin-docs](https://bhjsdev.github.io/bwin-docs/react/get-started)
+
+### Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for local development and how to run the examples.
