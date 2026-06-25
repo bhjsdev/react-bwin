@@ -12,9 +12,11 @@ const links = [
   'docs-example',
   'add-remove-panes',
   'custom-action',
+  'custom-action-use-window',
   're-render',
   'theme',
   'window-provider',
+  'windowless-glass',
 ].sort()
 
 const components: Record<string, FunctionComponent> = {}

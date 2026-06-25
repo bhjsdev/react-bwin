@@ -10,7 +10,7 @@ export default function App() {
 }
 
 function Main() {
-  const { addPane, removePane, fit, setTheme } = useWindow()
+  const { addPane, removePane, updatePane, fit, setTheme } = useWindow()
 
   React.useEffect(() => {
     setTheme('dark')
@@ -29,11 +29,18 @@ function Main() {
     removePane('a')
   }
 
+  function handlePaneUpdate() {
+    updatePane('a', {
+      content: <mark>Updated with a React component</mark>,
+    })
+  }
+
   return (
     <div style={{ padding: 20 }}>
       <h2>Window Provider</h2>
       <button onClick={handlePaneAdd}>Add pane</button>
       <button onClick={handlePaneRemove}>Remove pane</button>
+      <button onClick={handlePaneUpdate}>Update pane</button>
       <button onClick={() => fit()}>Fit</button>
       <button onClick={() => setTheme('light')}>Light theme</button>
       <Window

@@ -5,21 +5,18 @@ import React, {
   forwardRef,
   useImperativeHandle,
   useMemo,
-  useState,
-  ReactNode,
 } from 'react'
 import { createPortal } from 'react-dom'
 import { BinaryWindow } from 'bwin'
 import Muntin from './Muntin.tsx'
 import Pane from './Pane.tsx'
 import { WindowContext } from './WindowProvider.tsx'
+import usePaneContentPortals from './usePaneContentPortals.ts'
 import 'bwin/bwin.css'
 
 export default forwardRef<WindowApi, WindowProps>((props, ref) => {
   const windowRef = useRef<HTMLElement>()
   const sillRef = useRef<HTMLElement>()
-  const [paneContentPortals, setPaneContentPortals] =
-    useState<{ node: ReactNode; container: HTMLElement }[]>()
 
   const { panes: panesProp, ...restProps } = props
   const settings = { ...restProps, children: panesProp }
@@ -36,6 +33,9 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
     }
   })
 
+  const { paneContentPortals, addPane, updatePane, removePane } =
+    usePaneContentPortals(bwin, windowRef, panes)
+
   useEffect(() => {
     const windowEl = windowRef.current
 
@@ -51,9 +51,10 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
     ref,
     () => ({
       fit: bwin.fit.bind(bwin),
-      removePane: bwin.removePane.bind(bwin),
       setTheme: bwin.setTheme.bind(bwin),
       addPane,
+      removePane,
+      updatePane,
     }),
     []
   )
@@ -65,15 +66,16 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
       return
     }
 
-    windowContext.api.current = {
+    windowContext.windowApi.current = {
       fit: bwin.fit.bind(bwin),
-      removePane: bwin.removePane.bind(bwin),
       setTheme: bwin.setTheme.bind(bwin),
       addPane,
+      removePane,
+      updatePane,
     }
 
     return () => {
-      windowContext.api.current = null
+      windowContext.windowApi.current = null
     }
   }, [])
 
@@ -96,24 +98,12 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
 
   const memoizedWindowNode = useMemo(() => windowNode, [])
 
-  function addPane(targetPaneId: string, fields: PaneFields) {
-    const { content, ...restFields } = fields
-    const sash = bwin.addPane(targetPaneId, restFields)
-    const glassContentEl = document.querySelector(
-      `bw-pane[sash-id="${sash.id}"] bw-glass-content`
-    )
-    setPaneContentPortals((prev) => [
-      ...(prev || []),
-      { node: content, container: glassContentEl as HTMLElement },
-    ])
-  }
-
   return (
     <>
       {memoizedWindowNode}
-      {paneContentPortals?.map((portal) => {
-        return createPortal(portal.node, portal.container)
-      })}
+      {[...paneContentPortals].map(([sashId, { node, container }]) =>
+        createPortal(node, container, sashId)
+      )}
     </>
   )
 })

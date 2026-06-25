@@ -15,8 +15,10 @@ declare global {
   type Position = 'left' | 'right' | 'top' | 'bottom'
 
   type Action = {
+    id?: string
     label?: string
     className?: string
+    placement?: 'list' | 'menu'
     onClick: (
       event: React.MouseEvent<HTMLButtonElement>,
       bwin: BinaryWindow
@@ -75,8 +77,50 @@ declare global {
     children?: ConfigNode[]
   }
 
+  type PaneFields = {
+    id?: string
+    size?: number | string
+    position?: Position
+    title?: React.ReactNode
+    content?: React.ReactNode
+    actions?: Actions
+    draggable?: boolean
+    droppable?: boolean
+  }
+
+  type UpdatePaneOptions = Omit<PaneFields, 'id' | 'actions'>
+
+  type WindowlessGlassPosition =
+    | 'center'
+    | 'top-left'
+    | 'top-right'
+    | 'bottom-left'
+    | 'bottom-right'
+
+  type WindowlessGlassOptions = {
+    modal?: boolean
+    position?: WindowlessGlassPosition
+    width?: number
+    height?: number
+    offset?: number
+    offsetX?: number
+    offsetY?: number
+    id?: string
+    actions?: Actions
+    title?: React.ReactNode
+    content?: React.ReactNode
+    tabs?: object[]
+    draggable?: boolean
+    resizable?: boolean
+    animateOpen?: boolean
+  }
+
+  type RemoveWindowlessGlassOptions = {
+    animateClose?: boolean
+  }
+
   interface BinaryWindow {
-    new (settings: ConfigRoot): BinaryWindow
+    new(settings: ConfigRoot): BinaryWindow
     rootSash: Sash
     windowElement: HTMLElement
     containerElement: HTMLElement
@@ -86,16 +130,33 @@ declare global {
     mount(container: HTMLElement): void
     enableFeatures(): void
     fit(): void
-    addPane(targetPaneId: string, fields: PaneFields): Sash
-    removePane(targetPaneId: string): void
+    addPane(targetPaneSashId: string, fields: PaneFields): Sash
+    updatePane(sashId: string, fields: UpdatePaneOptions): void
+    removePane(sashId: string): void
     setTheme(theme: string): void
+    addWindowlessGlass(options?: WindowlessGlassOptions): HTMLElement
+    removeWindowlessGlass(
+      windowlessGlassId: string,
+      options?: RemoveWindowlessGlassOptions
+    ): HTMLElement | null
   }
 
   type WindowApi = {
-    addPane: (targetPaneId: string, fields: PaneFields) => void
-    removePane: (targetPaneId: string) => void
+    addPane: (targetPaneSashId: string, fields: PaneFields) => void
+    updatePane: (sashId: string, fields: UpdatePaneOptions) => void
+    removePane: (sashId: string) => void
     fit: () => void
     setTheme: (theme: string) => void
+  }
+
+  // Windowless glass lives on the WindowProvider (static BinaryWindow methods,
+  // no owning window), so its API is separate from the per-Window WindowApi.
+  type WindowlessGlassApi = {
+    addWindowlessGlass: (options?: WindowlessGlassOptions) => HTMLElement
+    removeWindowlessGlass: (
+      windowlessGlassId: string,
+      options?: RemoveWindowlessGlassOptions
+    ) => HTMLElement | null
   }
 
   /**
@@ -107,16 +168,6 @@ declare global {
     panes?: ConfigNode[]
   }
 
-  type PaneFields = {
-    id?: string
-    size?: number | string
-    position?: Position
-    title?: React.ReactNode
-    content?: React.ReactNode
-    actions?: Actions
-    draggable?: boolean
-    droppable?: boolean
-  }
 }
 
 export {

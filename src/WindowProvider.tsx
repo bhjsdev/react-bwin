@@ -1,7 +1,10 @@
 import * as React from 'react'
+import { createPortal } from 'react-dom'
+import useWindowlessGlass from './useWindowlessGlass.ts'
 
 type WindowContextValue = {
-  api: React.MutableRefObject<WindowApi | null>
+  windowApi: React.MutableRefObject<WindowApi | null>
+  windowlessApi: WindowlessGlassApi
 }
 
 export const WindowContext = React.createContext<WindowContextValue | null>(
@@ -9,48 +12,69 @@ export const WindowContext = React.createContext<WindowContextValue | null>(
 )
 
 export function WindowProvider({ children }: React.PropsWithChildren<{}>) {
-  const api = React.useRef<WindowApi | null>(null)
+  const windowApi = React.useRef<WindowApi | null>(null)
+
+  // Windowless glass uses static BinaryWindow methods and portals onto
+  // document.body, so it lives on the provider and works without a <Window>.
+  const { windowlessGlassPortals, addWindowlessGlass, removeWindowlessGlass } =
+    useWindowlessGlass()
+
+  const windowlessApi: WindowlessGlassApi = {
+    addWindowlessGlass,
+    removeWindowlessGlass,
+  }
 
   return (
-    <WindowContext.Provider value={{ api }}>{children}</WindowContext.Provider>
+    <WindowContext.Provider value={{ windowApi, windowlessApi }}>
+      {children}
+      {[...windowlessGlassPortals].map(([glassId, { node, container }]) =>
+        createPortal(node, container, glassId)
+      )}
+    </WindowContext.Provider>
   )
 }
 
-export function useWindow(): WindowApi {
+export function useWindow(): WindowApi & WindowlessGlassApi {
   const context = React.useContext(WindowContext)
 
   if (!context) {
     throw new Error('useWindow must be used within a WindowProvider')
   }
 
-  const { api } = context
+  const { windowApi, windowlessApi } = context
 
-  // Lazily build the API wrapper once and lock its identity for the lifetime
-  // of the component (a ref is a true identity guarantee, unlike useMemo whose
-  // cache React may discard). This keeps it safe to use in consumer dependency
-  // arrays, e.g.:
-  //
-  //   const { setTheme } = useWindow()
-  //   React.useEffect(() => {
-  //     setTheme('dark')
-  //   }, [setTheme]) // setTheme is stable, so this effect runs only once
-  //
-  // The Proxy forwards any method to api.current at call time (the window only
-  // populates it after it mounts), throwing if it's not ready. New WindowApi
-  // methods work automatically — no need to list them here.
-  const apiRef = React.useRef<WindowApi>()
+  // Build the API once and lock its identity (via a ref, not useMemo: React may
+  // discard a memo's cache, breaking identity stability) so it's stable in
+  // consumer dependency arrays.
+  const apiRef = React.useRef<WindowApi & WindowlessGlassApi>()
 
   if (!apiRef.current) {
-    apiRef.current = new Proxy({} as WindowApi, {
-      get(_target, key: keyof WindowApi) {
+    // A Proxy lets every WindowApi method work without listing it here. Reading
+    // a key returns a function that, when called, forwards to the live method on
+    // windowApi.current (the window only populates it after it mounts), e.g.:
+    //
+    //   useWindow().addPane('a', {...})
+    //     -> get('addPane') returns (...args) => windowApi.current.addPane(...args)
+    //     -> calls windowApi.current.addPane('a', {...}), or throws if not mounted
+    //
+    // Windowless-glass methods live on the provider, so they're returned directly.
+    apiRef.current = new Proxy({} as WindowApi & WindowlessGlassApi, {
+      get(_target, key: keyof (WindowApi & WindowlessGlassApi)) {
+        if (key in windowlessApi) {
+          return windowlessApi[key as keyof WindowlessGlassApi]
+        }
+
         return (...args: unknown[]) => {
-          if (!api.current) {
+          if (!windowApi.current) {
             throw new Error(
               '[react-bwin] Window API is not ready yet. ' +
                 'Render a <Window> inside the <WindowProvider> before calling its methods.'
             )
           }
-          const method = api.current[key] as (...args: unknown[]) => unknown
+
+          const method = windowApi.current[key as keyof WindowApi] as (
+            ...args: unknown[]
+          ) => unknown
           return method(...args)
         }
       },
