@@ -5,7 +5,10 @@ const dropdownActions = [
   {
     label: 'Update content',
     placement: 'list',
-    onClick: (event: React.MouseEvent<HTMLButtonElement>, bwin: BinaryWindow) => {
+    onClick: (
+      event: React.MouseEvent<HTMLButtonElement>,
+      bwin: BinaryWindow
+    ) => {
       const glassEl = (event.target as HTMLButtonElement).closest(
         'bw-glass'
       ) as HTMLElement
@@ -20,17 +23,17 @@ const dropdownActions = [
     label: 'Dummy action',
     placement: 'list',
     onClick: () => {
-      alert('Dummy action clicked');
+      alert('Dummy action clicked')
     },
   },
   {
     label: 'Dummy action 2',
     placement: 'list',
     onClick: () => {
-      alert('Dummy action 2 clicked');
+      alert('Dummy action 2 clicked')
     },
   },
-];
+] satisfies Action[]
 
 export default function App() {
   return (
@@ -62,7 +65,7 @@ export default function App() {
           {
             content: <i>Click "Update content" in the action menu</i>,
             actions: [...dropdownActions, ...DEFAULT_GLASS_ACTIONS],
-          }
+          },
         ]}
       />
     </div>
