@@ -21,8 +21,8 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2(vite@8.0.16(@types/node@24.13.1))
       bwin:
-        specifier: 0.4.5-dev-53ff0d6
-        version: 0.4.5-dev-53ff0d6
+        specifier: 0.5.0
+        version: 0.5.0
       picocolors:
         specifier: ^1.1.1
         version: 1.1.1
@@ -260,8 +260,8 @@ packages:
       babel-plugin-react-compiler:
         optional: true
 
-  bwin@0.4.5-dev-53ff0d6:
-    resolution: {integrity: sha512-lHdewfzpzK9+sCzCdOdh5PnHOygcZCagnbYFj2WJK397o+wLcYSvcIMxP1PvXAL0E9RpkBPv9joymztO6IWINg==}
+  bwin@0.5.0:
+    resolution: {integrity: sha512-1ItX2ruHcrNCUVqBh8E+ENH3hnHPMgezakoUB20WwijQI1W8gD79C7XegDqr2rirAJ1ZaNLOx8axEoCykzTxVA==}
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
@@ -622,7 +622,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.1
       vite: 8.0.16(@types/node@24.13.1)
 
-  bwin@0.4.5-dev-53ff0d6: {}
+  bwin@0.5.0: {}
 
   csstype@3.2.3: {}
 
