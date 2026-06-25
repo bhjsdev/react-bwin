@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       dev_release:
-        description: 'Dev pre-release: publish <next-patch>-dev-<sha> under `dev` against the selected branch/tag (instead of a stable `latest` release)'
+        description: 'Dev pre-release (under `dev`, not stable `latest`)'
         type: boolean
         default: false
   pull_request:
