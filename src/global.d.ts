@@ -8,7 +8,7 @@ declare module 'react-bwin' {
   export const WindowProvider: React.FunctionComponent<
     React.PropsWithChildren<{}>
   >
-  export function useWindow(): WindowApi
+  export function useWindow(): WindowApi & WindowlessGlassApi
 }
 
 declare global {
@@ -179,4 +179,5 @@ export {
   ConfigRoot,
   BinaryWindow,
   WindowProps,
+  WindowlessGlassApi,
 }
