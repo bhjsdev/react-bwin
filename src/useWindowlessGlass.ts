@@ -1,24 +1,22 @@
-import { useState, ReactNode } from 'react'
+import { useEffect, useRef, useState, ReactNode } from 'react'
 import { BinaryWindow } from 'bwin'
 
-// Maps a windowless-glass id to the content node and the bw-glass-content it
-// portals into. Mirrors usePaneContentPortals, but keyed by glass id since a
-// windowless glass floats on document.body rather than living in a pane.
 export type WindowlessGlassPortalMap = Map<
   string,
   { node: ReactNode; container: HTMLElement }
 >
 
-// Owns the windowless-glass content portals and the add/remove functions.
-// addWindowlessGlass/removeWindowlessGlass are static on BinaryWindow (the glass
-// is detached from any window instance), so this hook needs no bwin instance.
 export default function useWindowlessGlass() {
   const [windowlessGlassPortals, setWindowlessGlassPortals] =
     useState<WindowlessGlassPortalMap>(() => new Map())
 
+  const liveGlassIdsRef = useRef<Set<string>>(new Set())
+
   function addWindowlessGlass(options: WindowlessGlassOptions = {}) {
     const { content, ...rest } = options
     const glassEl = BinaryWindow.addWindowlessGlass(rest)
+
+    liveGlassIdsRef.current.add(glassEl.id)
 
     if ('content' in options) {
       const contentEl = glassEl.querySelector('bw-glass-content')
@@ -44,6 +42,7 @@ export default function useWindowlessGlass() {
       windowlessGlassId,
       options
     )
+    liveGlassIdsRef.current.delete(windowlessGlassId)
 
     setWindowlessGlassPortals((prev) => {
       if (!prev.has(windowlessGlassId)) return prev
@@ -55,6 +54,20 @@ export default function useWindowlessGlass() {
 
     return removed
   }
+
+  // A windowless glass lives on document.body, outside React's tree. Without
+  // this, open glasses (and any modal backdrop) are orphaned on provider unmount.
+  useEffect(() => {
+    const liveGlassIds = liveGlassIdsRef.current
+
+    return () => {
+      liveGlassIds.forEach((id) =>
+        BinaryWindow.removeWindowlessGlass(id, { animateClose: false })
+      )
+      
+      liveGlassIds.clear()
+    }
+  }, [])
 
   return {
     windowlessGlassPortals,
