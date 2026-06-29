@@ -99,6 +99,7 @@ declare global {
 
   type WindowlessGlassOptions = {
     modal?: boolean
+    closeOnBackdropClick?: boolean
     position?: WindowlessGlassPosition
     width?: number
     height?: number
@@ -112,11 +113,11 @@ declare global {
     tabs?: object[]
     draggable?: boolean
     resizable?: boolean
-    animateOpen?: boolean
+    animate?: boolean
   }
 
   type RemoveWindowlessGlassOptions = {
-    animateClose?: boolean
+    animate?: boolean
   }
 
   interface BinaryWindow {
@@ -134,11 +135,11 @@ declare global {
     updatePane(sashId: string, fields: UpdatePaneOptions): void
     removePane(sashId: string): void
     setTheme(theme: string): void
-    addWindowlessGlass(options?: WindowlessGlassOptions): HTMLElement
+    addWindowlessGlass(options?: WindowlessGlassOptions): Promise<HTMLElement>
     removeWindowlessGlass(
       windowlessGlassId: string,
       options?: RemoveWindowlessGlassOptions
-    ): HTMLElement | null
+    ): Promise<HTMLElement | null>
   }
 
   type WindowApi = {
@@ -152,11 +153,13 @@ declare global {
   // Windowless glass lives on the WindowProvider (static BinaryWindow methods,
   // no owning window), so its API is separate from the per-Window WindowApi.
   type WindowlessGlassApi = {
-    addWindowlessGlass: (options?: WindowlessGlassOptions) => HTMLElement
+    addWindowlessGlass: (
+      options?: WindowlessGlassOptions
+    ) => Promise<HTMLElement>
     removeWindowlessGlass: (
       windowlessGlassId: string,
       options?: RemoveWindowlessGlassOptions
-    ) => HTMLElement | null
+    ) => Promise<void>
   }
 
   /**

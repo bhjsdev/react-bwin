@@ -29,6 +29,16 @@ function Main() {
     })
   }
 
+  // Modal whose backdrop closes the glass on click (`closeOnBackdropClick`).
+  function handleModalCloseOnBackdrop() {
+    addWindowlessGlass({
+      modal: true,
+      closeOnBackdropClick: true,
+      title: 'Click backdrop to close',
+      content: <div style={{ padding: 8 }}>click outside to close</div>,
+    })
+  }
+
   // Placed relative to the body's top-left via offsetX/offsetY.
   function handlePositioned() {
     addWindowlessGlass({
@@ -70,6 +80,9 @@ function Main() {
       <h2>Windowless glass</h2>
       <button onClick={handleBasic}>Add windowless</button>
       <button onClick={handleModal}>Add modal</button>
+      <button onClick={handleModalCloseOnBackdrop}>
+        Add modal (close on backdrop)
+      </button>
       <button onClick={handlePositioned}>Add positioned</button>
       <button onClick={handleFullscreen}>Add fullscreen</button>
       <button onClick={handleNonResizable}>Add non-resizable</button>
