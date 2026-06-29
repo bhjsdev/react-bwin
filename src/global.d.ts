@@ -90,6 +90,29 @@ declare global {
 
   type UpdatePaneOptions = Omit<PaneFields, 'id' | 'actions'>
 
+  // Per-instance event emitter (bwin `frame/event.js`). Pane-lifecycle events
+  // carry the affected `Sash`; glass-action events carry the `<bw-glass>` element.
+  // Only `before-*` events are vetoable — a listener returning `false` cancels.
+  type BinaryWindowEventMap = {
+    'before-pane-add': Sash
+    'pane-add': Sash
+    'before-pane-remove': Sash
+    'pane-remove': Sash
+    close: HTMLElement
+    minimize: HTMLElement
+    maximize: HTMLElement
+    unmaximize: HTMLElement
+    detach: HTMLElement
+    attach: HTMLElement
+    restore: HTMLElement
+  }
+
+  type BinaryWindowEvent = keyof BinaryWindowEventMap
+
+  type BinaryWindowEventListener<E extends BinaryWindowEvent> = (
+    detail: BinaryWindowEventMap[E]
+  ) => void | boolean
+
   type WindowlessGlassPosition =
     | 'center'
     | 'top-left'
@@ -135,6 +158,14 @@ declare global {
     updatePane(sashId: string, fields: UpdatePaneOptions): void
     removePane(sashId: string): void
     setTheme(theme: string): void
+    on<E extends BinaryWindowEvent>(
+      eventName: E,
+      listener: BinaryWindowEventListener<E>
+    ): void
+    off<E extends BinaryWindowEvent>(
+      eventName: E,
+      listener: BinaryWindowEventListener<E>
+    ): void
     addWindowlessGlass(options?: WindowlessGlassOptions): Promise<HTMLElement>
     removeWindowlessGlass(
       windowlessGlassId: string,
