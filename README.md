@@ -24,3 +24,7 @@ Full guides, API reference, and live examples: [bhjsdev.github.io/bwin-docs](htt
 ### Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for local development and how to run the examples.
+
+### Related
+
+- [bwin](https://github.com/bhjsdev/bwin) — the underlying window-tiling engine this binds to.
