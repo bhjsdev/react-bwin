@@ -83,6 +83,70 @@ export default function usePaneContentPortals(
     }
 
     setPaneContentPortals(initial)
+
+    // Detach/attach destroy the old owner (the source pane on detach, the
+    // detached glass on attach) and create a new one with a fresh id, so the
+    // portal key — which names that owner — goes stale. bwin's `transferGlass`
+    // moves the `bw-glass-content` element itself between them, so the container
+    // is the one constant that rides through. Find the entry by that surviving
+    // container and re-key it to the new owner so lookups (portal key,
+    // updatePane, close) keep resolving and the content stays mounted.
+    function rekeyPortalByContainer(glassEl: HTMLElement, newKey: string) {
+      const contentEl = glassEl.querySelector('bw-glass-content')
+      if (!contentEl) return
+
+      setPaneContentPortals((prev) => {
+        for (const [key, portal] of prev) {
+          if (portal.container !== contentEl) continue
+          if (key === newKey) return prev
+
+          const next = new Map(prev)
+          next.delete(key)
+          next.set(newKey, portal)
+          return next
+        }
+        return prev
+      })
+    }
+
+    // Detached glass owns the content now; key by the detached glass id.
+    function handleDetach(detachedGlassEl: HTMLElement) {
+      rekeyPortalByContainer(detachedGlassEl, detachedGlassEl.id)
+    }
+
+    // Re-attached into a freshly-built pane; key by that pane's new sash id.
+    function handleAttach(glassEl: HTMLElement) {
+      const paneSashId = glassEl.closest('bw-pane')?.getAttribute('sash-id')
+      if (paneSashId) rekeyPortalByContainer(glassEl, paneSashId)
+    }
+
+    // Close destroys the glass (attached or detached) — drop its portal. The
+    // built-in close action calls removePane/removeDetachedGlass directly,
+    // bypassing the wrapper's removePane, so prune by the moved container here.
+    function handleClose(glassEl: HTMLElement) {
+      const contentEl = glassEl.querySelector('bw-glass-content')
+      if (!contentEl) return
+
+      setPaneContentPortals((prev) => {
+        for (const [key, portal] of prev) {
+          if (portal.container !== contentEl) continue
+          const next = new Map(prev)
+          next.delete(key)
+          return next
+        }
+        return prev
+      })
+    }
+
+    bwin.on('detach', handleDetach)
+    bwin.on('attach', handleAttach)
+    bwin.on('close', handleClose)
+
+    return () => {
+      bwin.off('detach', handleDetach)
+      bwin.off('attach', handleAttach)
+      bwin.off('close', handleClose)
+    }
   }, [])
 
   return {

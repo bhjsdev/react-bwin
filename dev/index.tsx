@@ -16,8 +16,9 @@ const links = [
   're-render',
   'theme',
   'window-provider',
+  'window-unmount',
   'windowless-glass',
-  'detached-glass-unmount',
+  'windowless-glass-unmount',
 ].sort()
 
 const components: Record<string, FunctionComponent> = {}
