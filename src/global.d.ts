@@ -18,7 +18,7 @@ declare global {
     id?: string
     label?: string
     className?: string
-    placement?: 'list' | 'menu'
+    placement?: 'bar' | 'menu'
     onClick: (
       event: React.MouseEvent<HTMLButtonElement>,
       bwin: BinaryWindow
