@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       dev_release:
-        description: 'Dev pre-release (under `dev`, not stable `latest`)'
+        description: 'Publish dev release from selected branch'
         type: boolean
         default: false
   pull_request:
@@ -97,6 +97,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  # Intentionally ungated (no `environment:`): auto on merge to main, or manual from the
+  # selected branch via the `dev_release` checkbox — for cutting a dev build of in-progress work.
   dev-publish:
     if: >-
       (github.event_name == 'pull_request' && github.event.pull_request.merged == true) ||
