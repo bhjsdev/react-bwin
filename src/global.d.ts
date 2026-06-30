@@ -16,6 +16,7 @@ declare global {
 
   type Action = {
     id?: string
+    type?: string
     label?: string
     className?: string
     placement?: 'bar' | 'menu'

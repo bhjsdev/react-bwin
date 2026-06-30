@@ -87,6 +87,7 @@ export default function Pane({
                   <button
                     className={className}
                     key={key}
+                    bw-action-type={action.type || undefined}
                     onClick={(event) => action.onClick(event, bwin)}
                   >
                     {action.label}
