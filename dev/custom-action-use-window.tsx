@@ -15,7 +15,7 @@ function Main() {
   const updateAction: Action = {
     id: 'update-content',
     label: 'Update content',
-    placement: 'list',
+    placement: 'menu',
     onClick: () => {
       updatePane('a', {
         title: 'Updated title',
@@ -27,7 +27,7 @@ function Main() {
   const removeAction: Action = {
     id: 'remove-pane',
     label: 'Remove pane',
-    placement: 'list',
+    placement: 'menu',
     onClick: () => {
       removePane('a')
     },

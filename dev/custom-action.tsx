@@ -4,7 +4,7 @@ import { Window, DEFAULT_GLASS_ACTIONS } from '../src'
 const dropdownActions = [
   {
     label: 'Update content',
-    placement: 'list',
+    placement: 'menu',
     onClick: (
       event: React.MouseEvent<HTMLButtonElement>,
       bwin: BinaryWindow
@@ -21,14 +21,14 @@ const dropdownActions = [
   },
   {
     label: 'Dummy action',
-    placement: 'list',
+    placement: 'menu',
     onClick: () => {
       alert('Dummy action clicked')
     },
   },
   {
     label: 'Dummy action 2',
-    placement: 'list',
+    placement: 'menu',
     onClick: () => {
       alert('Dummy action 2 clicked')
     },
