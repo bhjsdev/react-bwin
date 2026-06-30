@@ -1,5 +1,6 @@
 ## React Binary Window
 
+[![Build](https://github.com/bhjsdev/react-bwin/actions/workflows/build.yml/badge.svg)](https://github.com/bhjsdev/react-bwin/actions/workflows/build.yml)
 [![Publish to npm](https://github.com/bhjsdev/react-bwin/actions/workflows/publish.yml/badge.svg)](https://github.com/bhjsdev/react-bwin/actions/workflows/publish.yml)
 [![npm version](https://img.shields.io/npm/v/react-bwin)](https://www.npmjs.com/package/react-bwin)
 
