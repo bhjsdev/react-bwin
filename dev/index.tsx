@@ -16,6 +16,7 @@ const links = [
   're-render',
   'theme',
   'window-provider',
+  'window-unmount',
   'windowless-glass',
   'windowless-glass-unmount',
 ].sort()

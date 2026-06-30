@@ -12,9 +12,9 @@ export default function useWindowlessGlass() {
 
   const liveGlassIdsRef = useRef<Set<string>>(new Set())
 
-  function addWindowlessGlass(options: WindowlessGlassOptions = {}) {
+  async function addWindowlessGlass(options: WindowlessGlassOptions = {}) {
     const { content, ...rest } = options
-    const glassEl = BinaryWindow.addWindowlessGlass(rest)
+    const glassEl = await BinaryWindow.addWindowlessGlass(rest)
 
     liveGlassIdsRef.current.add(glassEl.id)
 
@@ -22,6 +22,7 @@ export default function useWindowlessGlass() {
       const contentEl = glassEl.querySelector('bw-glass-content')
 
       if (contentEl) {
+        // There's a delay to show content due to the opening animation
         setWindowlessGlassPortals((prev) =>
           new Map(prev).set(glassEl.id, {
             node: content,
@@ -34,14 +35,12 @@ export default function useWindowlessGlass() {
     return glassEl
   }
 
-  function removeWindowlessGlass(
+  async function removeWindowlessGlass(
     windowlessGlassId: string,
     options?: RemoveWindowlessGlassOptions
   ) {
-    const removed = BinaryWindow.removeWindowlessGlass(
-      windowlessGlassId,
-      options
-    )
+    await BinaryWindow.removeWindowlessGlass(windowlessGlassId, options)
+
     liveGlassIdsRef.current.delete(windowlessGlassId)
 
     setWindowlessGlassPortals((prev) => {
@@ -51,8 +50,6 @@ export default function useWindowlessGlass() {
       next.delete(windowlessGlassId)
       return next
     })
-
-    return removed
   }
 
   // A windowless glass lives on document.body, outside React's tree. Without
@@ -62,9 +59,9 @@ export default function useWindowlessGlass() {
 
     return () => {
       liveGlassIds.forEach((id) =>
-        BinaryWindow.removeWindowlessGlass(id, { animateClose: false })
+        BinaryWindow.removeWindowlessGlass(id, { animate: false })
       )
-      
+
       liveGlassIds.clear()
     }
   }, [])

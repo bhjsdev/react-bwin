@@ -30,12 +30,12 @@ export default function Pane({
         ? sash.store.actions
         : []
 
-  const listActions = actions.filter(
-    (action: any) => action.placement === 'list'
+  const menuActions = actions.filter(
+    (action: Action) => action.placement === 'menu'
   )
 
   const barActions = actions.filter(
-    (action: any) => action.placement === undefined || action.placement === 'bar'
+    (action: Action) => action.placement === undefined || action.placement === 'bar'
   )
 
   return (
@@ -50,11 +50,11 @@ export default function Pane({
         <bw-glass-header
           can-drag={sash.store?.draggable === false ? 'false' : 'true'}
         >
-          {listActions.length > 0 && (
+          {menuActions.length > 0 && (
             <>
               <button className="bw-action-menu-trigger" ref={triggerRef} />
               <bw-action-menu popover="auto" ref={menuRef}>
-                {listActions.map((action: any, key: number) => {
+                {menuActions.map((action: Action, key: number) => {
                   const className = action.className
                     ? `bw-action ${action.className}`
                     : 'bw-action'
@@ -78,7 +78,7 @@ export default function Pane({
           <bw-glass-title>{sash.store?.title}</bw-glass-title>
           {barActions.length > 0 && (
             <bw-action-bar>
-              {barActions.map((action: any, key: number) => {
+              {barActions.map((action: Action, key: number) => {
                 const className = action.className
                   ? `bw-action ${action.className}`
                   : 'bw-action'
@@ -87,7 +87,6 @@ export default function Pane({
                   <button
                     className={className}
                     key={key}
-                    bw-action-type={action.type || undefined}
                     onClick={(event) => action.onClick(event, bwin)}
                   >
                     {action.label}
