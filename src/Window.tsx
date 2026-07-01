@@ -33,8 +33,14 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
     }
   })
 
-  const { paneContentPortals, addPane, updatePane, removePane } =
-    usePaneContentPortals(bwin, windowRef, panes)
+  const {
+    paneContentPortals,
+    addPane,
+    updatePane,
+    removePane,
+    addDetachedGlass,
+    removeDetachedGlass,
+  } = usePaneContentPortals(bwin, windowRef, panes)
 
   useEffect(() => {
     const windowEl = windowRef.current
@@ -55,6 +61,8 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
       addPane,
       removePane,
       updatePane,
+      addDetachedGlass,
+      removeDetachedGlass,
       on: bwin.on.bind(bwin),
       off: bwin.off.bind(bwin),
     }),
@@ -74,6 +82,8 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
       addPane,
       removePane,
       updatePane,
+      addDetachedGlass,
+      removeDetachedGlass,
       on: bwin.on.bind(bwin),
       off: bwin.off.bind(bwin),
     }

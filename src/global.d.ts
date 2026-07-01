@@ -144,6 +144,27 @@ declare global {
     animate?: boolean
   }
 
+  // A detached glass floats inside a `bw-window`; positions match windowless glass.
+  type DetachedGlassOptions = {
+    position?: WindowlessGlassPosition
+    width?: number
+    height?: number
+    offset?: number
+    offsetX?: number
+    offsetY?: number
+    id?: string
+    actions?: Actions
+    title?: React.ReactNode
+    content?: React.ReactNode
+    draggable?: boolean
+    resizable?: boolean
+    animate?: boolean
+  }
+
+  type RemoveDetachedGlassOptions = {
+    animate?: boolean
+  }
+
   interface BinaryWindow {
     new(settings: ConfigRoot): BinaryWindow
     rootSash: Sash
@@ -158,6 +179,11 @@ declare global {
     addPane(targetPaneSashId: string, fields: PaneFields): Sash
     updatePane(sashId: string, fields: UpdatePaneOptions): void
     removePane(sashId: string): void
+    addDetachedGlass(options?: DetachedGlassOptions): Promise<HTMLElement>
+    removeDetachedGlass(
+      id: string,
+      options?: RemoveDetachedGlassOptions
+    ): Promise<HTMLElement | null>
     setTheme(theme: string): void
     on<E extends BinaryWindowEvent>(
       eventName: E,
@@ -178,6 +204,13 @@ declare global {
     addPane: (targetPaneSashId: string, fields: PaneFields) => void
     updatePane: (sashId: string, fields: UpdatePaneOptions) => void
     removePane: (sashId: string) => void
+    addDetachedGlass: (
+      options?: DetachedGlassOptions
+    ) => Promise<HTMLElement>
+    removeDetachedGlass: (
+      id: string,
+      options?: RemoveDetachedGlassOptions
+    ) => Promise<HTMLElement | null>
     fit: () => void
     setTheme: (theme: string) => void
     on: <E extends BinaryWindowEvent>(

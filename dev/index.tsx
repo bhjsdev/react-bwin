@@ -13,6 +13,7 @@ const links = [
   'add-remove-panes',
   'custom-action',
   'custom-action-use-window',
+  'detached-glass',
   'events',
   're-render',
   'theme',

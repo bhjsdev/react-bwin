@@ -64,6 +64,45 @@ export default function usePaneContentPortals(
     })
   }
 
+  // A detached glass floats INSIDE the bw-window (React owns that subtree), so
+  // its content portals through the same map as panes, keyed by the glass id.
+  async function addDetachedGlass(options: DetachedGlassOptions = {}) {
+    const { content, ...rest } = options
+    const glassEl = await bwin.addDetachedGlass(rest)
+
+    if ('content' in options) {
+      const glassContentEl = glassEl.querySelector('bw-glass-content')
+
+      if (glassContentEl) {
+        setPaneContentPortals((prev) =>
+          new Map(prev).set(glassEl.id, {
+            node: content,
+            container: glassContentEl as HTMLElement,
+          })
+        )
+      }
+    }
+
+    return glassEl
+  }
+
+  async function removeDetachedGlass(
+    id: string,
+    options?: RemoveDetachedGlassOptions
+  ) {
+    const removedGlassEl = await bwin.removeDetachedGlass(id, options)
+
+    setPaneContentPortals((prev) => {
+      if (!prev.has(id)) return prev
+
+      const next = new Map(prev)
+      next.delete(id)
+      return next
+    })
+
+    return removedGlassEl
+  }
+
   // Seed each pane's initial content into a portal before paint (avoids a flash
   // of empty panes).
   useLayoutEffect(() => {
@@ -158,5 +197,7 @@ export default function usePaneContentPortals(
     addPane,
     updatePane,
     removePane,
+    addDetachedGlass,
+    removeDetachedGlass,
   }
 }
