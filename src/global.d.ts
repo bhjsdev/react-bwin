@@ -180,6 +180,14 @@ declare global {
     removePane: (sashId: string) => void
     fit: () => void
     setTheme: (theme: string) => void
+    on: <E extends BinaryWindowEvent>(
+      eventName: E,
+      listener: BinaryWindowEventListener<E>
+    ) => void
+    off: <E extends BinaryWindowEvent>(
+      eventName: E,
+      listener: BinaryWindowEventListener<E>
+    ) => void
   }
 
   // Windowless glass lives on the WindowProvider (static BinaryWindow methods,
