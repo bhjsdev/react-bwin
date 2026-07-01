@@ -55,6 +55,8 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
       addPane,
       removePane,
       updatePane,
+      on: bwin.on.bind(bwin),
+      off: bwin.off.bind(bwin),
     }),
     []
   )
@@ -72,6 +74,8 @@ export default forwardRef<WindowApi, WindowProps>((props, ref) => {
       addPane,
       removePane,
       updatePane,
+      on: bwin.on.bind(bwin),
+      off: bwin.off.bind(bwin),
     }
 
     return () => {

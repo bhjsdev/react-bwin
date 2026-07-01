@@ -20,6 +20,9 @@ export default function usePaneContentPortals(
   function addPane(targetPaneSashId: string, fields: PaneFields) {
     const { content, ...restFields } = fields
     const sash = bwin.addPane(targetPaneSashId, restFields)
+    // A vetoed `before-pane-add` (listener returned `false`) makes bwin's
+    // `addPane` return null — nothing was added, so there's no portal to seed.
+    if (!sash) return
     const windowEl = windowRef.current
     const glassContentEl = windowEl?.querySelector(
       `bw-pane[sash-id="${sash.id}"] bw-glass-content`
