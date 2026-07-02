@@ -1,7 +1,7 @@
 {
   "name": "react-bwin",
   "description": "A tiling window manager in React based on Binary Window library",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "type": "module",
   "repository": {
     "type": "git",
@@ -45,7 +45,7 @@
     "@types/react": "^16.14.62",
     "@types/react-dom": "^16.9.24",
     "@vitejs/plugin-react": "^6.0.2",
-    "bwin": "^0.6.0",
+    "bwin": "^0.6.1",
     "picocolors": "^1.1.1",
     "prettier": "^3.4.1",
     "react": "^16.14.0",
