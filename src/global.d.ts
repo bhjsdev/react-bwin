@@ -8,7 +8,9 @@ declare module 'react-bwin' {
   export const WindowProvider: React.FunctionComponent<
     React.PropsWithChildren<{}>
   >
-  export function useWindow(): WindowApi & WindowlessGlassApi
+  export function useWindow(): WindowApi &
+    WindowlessGlassApi &
+    DetachedGlassManagerApi
 }
 
 declare global {
@@ -235,6 +237,12 @@ declare global {
     ) => Promise<void>
   }
 
+  // The detached-glass manager is a shared singleton (not per-window), so its API
+  // lives on the WindowProvider alongside WindowlessGlassApi.
+  type DetachedGlassManagerApi = {
+    setDetachedGlassBaseZIndex: (zIndex: number) => void
+  }
+
   /**
    * @deprecated Use {@link WindowApi} instead.
    */
@@ -256,4 +264,5 @@ export {
   BinaryWindow,
   WindowProps,
   WindowlessGlassApi,
+  DetachedGlassManagerApi,
 }
