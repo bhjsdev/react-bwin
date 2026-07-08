@@ -14,6 +14,7 @@ const links = [
   'custom-action',
   'custom-action-use-window',
   'detached-glass',
+  'detached-glass-base-zindex',
   'events',
   're-render',
   'theme',

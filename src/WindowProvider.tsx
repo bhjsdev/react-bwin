@@ -1,10 +1,12 @@
 import * as React from 'react'
 import { createPortal } from 'react-dom'
+import { detachedGlassManager } from 'bwin'
 import useWindowlessGlass from './useWindowlessGlass.ts'
 
 type WindowContextValue = {
   windowApi: React.MutableRefObject<WindowApi | null>
   windowlessApi: WindowlessGlassApi
+  detachedGlassManagerApi: DetachedGlassManagerApi
 }
 
 export const WindowContext = React.createContext<WindowContextValue | null>(
@@ -14,8 +16,6 @@ export const WindowContext = React.createContext<WindowContextValue | null>(
 export function WindowProvider({ children }: React.PropsWithChildren<{}>) {
   const windowApi = React.useRef<WindowApi | null>(null)
 
-  // Windowless glass uses static BinaryWindow methods and portals onto
-  // document.body, so it lives on the provider and works without a <Window>.
   const { windowlessGlassPortals, addWindowlessGlass, removeWindowlessGlass } =
     useWindowlessGlass()
 
@@ -24,8 +24,15 @@ export function WindowProvider({ children }: React.PropsWithChildren<{}>) {
     removeWindowlessGlass,
   }
 
+  const detachedGlassManagerApi: DetachedGlassManagerApi = {
+    setDetachedGlassBaseZIndex: (zIndex) =>
+      detachedGlassManager.setBaseZIndex(zIndex),
+  }
+
   return (
-    <WindowContext.Provider value={{ windowApi, windowlessApi }}>
+    <WindowContext.Provider
+      value={{ windowApi, windowlessApi, detachedGlassManagerApi }}
+    >
       {children}
       {[...windowlessGlassPortals].map(([glassId, { node, container }]) =>
         createPortal(node, container, glassId)
@@ -34,19 +41,23 @@ export function WindowProvider({ children }: React.PropsWithChildren<{}>) {
   )
 }
 
-export function useWindow(): WindowApi & WindowlessGlassApi {
+export function useWindow(): WindowApi &
+  WindowlessGlassApi &
+  DetachedGlassManagerApi {
   const context = React.useContext(WindowContext)
 
   if (!context) {
     throw new Error('useWindow must be used within a WindowProvider')
   }
 
-  const { windowApi, windowlessApi } = context
+  const { windowApi, windowlessApi, detachedGlassManagerApi } = context
+
+  type CombinedApi = WindowApi & WindowlessGlassApi & DetachedGlassManagerApi
 
   // Build the API once and lock its identity (via a ref, not useMemo: React may
   // discard a memo's cache, breaking identity stability) so it's stable in
   // consumer dependency arrays.
-  const apiRef = React.useRef<WindowApi & WindowlessGlassApi>()
+  const apiRef = React.useRef<CombinedApi>()
 
   if (!apiRef.current) {
     // A Proxy lets every WindowApi method work without listing it here. Reading
@@ -57,11 +68,16 @@ export function useWindow(): WindowApi & WindowlessGlassApi {
     //     -> get('addPane') returns (...args) => windowApi.current.addPane(...args)
     //     -> calls windowApi.current.addPane('a', {...}), or throws if not mounted
     //
-    // Windowless-glass methods live on the provider, so they're returned directly.
-    apiRef.current = new Proxy({} as WindowApi & WindowlessGlassApi, {
-      get(_target, key: keyof (WindowApi & WindowlessGlassApi)) {
+    // Windowless-glass and detached-glass-manager methods live on the provider,
+    // so they're returned directly.
+    apiRef.current = new Proxy({} as CombinedApi, {
+      get(_target, key: keyof CombinedApi) {
         if (key in windowlessApi) {
           return windowlessApi[key as keyof WindowlessGlassApi]
+        }
+
+        if (key in detachedGlassManagerApi) {
+          return detachedGlassManagerApi[key as keyof DetachedGlassManagerApi]
         }
 
         return (...args: unknown[]) => {
